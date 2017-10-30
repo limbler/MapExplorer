@@ -1,59 +1,27 @@
 <!DOCTYPE html>
 <html>
 <body>
-
+  <head>
+    <link rel="stylesheet" type="text/css" href="styles.css">
+  </head>
 <style>
 body {
-  padding-top: 80px;
   text-align: center;
   font-family: monaco, monospace;
   background: linear-gradient( rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5) ), url(http://teehunter.com/wp-content/uploads/2017/07/Captain-America-Glamour.jpg) 100%;
   background-size: cover;
 }
-h1, h2 {
-  display: inline-block;
-  font-family: sans-serif;
-}
-h1 {
+
+#header_text {
+  padding-top: 100px;
+  clear:both;
+  font-family: "Courier", sans-serif;
   font-size: 60px;
   color: white;
-}
-h2 {
-  font-size: 20px;
-}
-span {
-  background: #fd0;
+  text-align: center;
 }
 
-nav { 
-  color: white ;
-  font-size: 20;
-  background-color: black;
-}
-
-.navbar {
-  margin-top: -80px;
-}
-
-#header_flag {
-  padding-top: 100px;
-  background-color: black;
-  opacity: 0.5;
-}
-#header_flag > h1 { 
-  opacity: 1;
-}
-
-nav > ul > li { 
-  display: inline;
-}
-
-#aboutlink { 
-  color: white;
-  text-decoration: none;
-}
-
-#map-panel { 
+#map-panel {
   border: 1px solid white;
   box-shadow:  inset 0 0 10px #000000;
   border-radius: 30px;
@@ -72,13 +40,13 @@ nav > ul > li {
   box-shadow: 0 4px 7px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
-figcaption { 
+figcaption {
   color:white;
   font-family: sans-serif;
   font-size: 12;
 }
 
-img { 
+img {
   border-radius: 8px;
 }
 
@@ -91,19 +59,23 @@ img:hover {
     transition: all 0.2s ease;
 }
 
+
 </style>
 
-<nav class="navbar">
-  <ul>
-    <li> MapExplorer</li>
-    <li> <a href="https://www.google.com/" target="_blank" id="aboutlink">about</a></li>
-    <li> <a href="https://www.paypal.com/" target="_blank" id="donatelink" ><img src="https://www.dokuwiki.org/lib/exe/fetch.php?tok=d9fa04&media=https%3A%2F%2Fraw.githubusercontent.com%2Ftschinz%2Fdokuwiki_paypal_plugin%2Fmaster%2Flogo.jpg" width=100px ></a></li>
-  </ul>
+<nav>
+    <ul class="left_nav">
+      <li><a href="./landing.html">MapExplorer</a></li>
+    </ul>
+    <ul class="right_nav">
+      <li> <a href="./about.html">About</a></li>
+      <li> <a href="https://www.google.com/" target="_blank" id="signinlink">Sign In</a></li>
+      <li> <a href="https://www.paypal.com/" target="_blank" id="donatelink" ><img src="https://www.dokuwiki.org/lib/exe/fetch.php?tok=d9fa04&media=https%3A%2F%2Fraw.githubusercontent.com%2Ftschinz%2Fdokuwiki_paypal_plugin%2Fmaster%2Flogo.jpg" width=100px ></a></li>
+    </ul>
 </nav>
 
-<div id="header_flag">
-  <h1>Pick A Map To Explore</h1>
-</div>
+
+<h1 id="header_text">Pick A Map To Explore</h1>
+
 
 <div id="map-panel">
   <figure class="map-thumbnail" id="img1" >
@@ -112,19 +84,24 @@ img:hover {
       <figcaption>Map 1 - Impressionism.</figcaption>
       <figcaption>Size: 10 tiles</figcaption>
     </div>
-  </figure>           
+  </figure>
   <figure class="map-thumbnail" id="img1">
     <img src="https://images.moviepilot.com/image/upload/c_fill,h_470,q_auto:good,w_620/r1n4xiprwhxgvgeweokd.jpg"  width=200px height=200px>
     <div class="caption-container">
       <figcaption>Map 2 - Childs Drawing</figcaption>
       <figcaption>Size: 20 tiles</figcaption>
     </div>
-  </figure>         
+  </figure>
 </div>
+
+<footer>
+  <p>Created by Laura I. Contact information: <a href="mailto:someone@example.com">
+  someone@example.com</a>.</p>
+</footer>
 
 
 <script>
-  
+
 </script>
 
 </body>
