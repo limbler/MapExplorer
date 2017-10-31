@@ -11,7 +11,7 @@ nav {
 }
 
 nav > ul {
-    margin : 2px;
+    margin : 0.1em;
 }
 
 nav > ul > li  {
@@ -30,16 +30,16 @@ nav > ul > li > a:hover {
 ul.left_nav  {
   float: left;
   font-family: "Courier";
-  font-size: 27px;
+  font-size: 1.7em;
 }
 
 ul.right_nav {
   float: right;
-  font-size: 18px;
+  font-size: 1.2em;
 }
 
 ul.right_nav > li > a {
-  padding-left: 20px;
+  padding-left: 1.3em;
 }
 
 
@@ -54,13 +54,40 @@ footer {
   width: 100%;
   text-decoration: none;
   text-align: right;
-  font-size: 12px;
+  font-size: 0.8em;
 }
 
 footer > p {
-    margin : 5px;
+    margin : 0.5em;
 }
 
 footer * {
   color: #777777;
+}
+
+rect.map_selection {
+  fill: #fdf339;
+  fill-opacity: 0;
+  stroke-width:3;
+  stroke: #fdf339;
+  stroke-opacity: 0.1;
+}
+
+rect.map_selection:hover {
+  fill-opacity: 0.07;
+  stroke-width:3;
+  stroke-opacity: 0.7;
+}
+
+.button {
+  font-family: "Arial";
+  text-decoration: none;
+  background-color: #222222;
+  color: #eeeeee;
+  padding: .2em 0.8em 0.2em 0.8em;
+  border-top: 3px solid #cc6533;
+  border-right: 3px solid #cc6533;
+  border-bottom: 3px solid #cc6533;
+  border-left: 3px solid #cc6533;
+  border-radius: 30px;
 }

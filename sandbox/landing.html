@@ -8,7 +8,7 @@
 body {
   text-align: center;
   font-family: monaco, monospace;
-  background: linear-gradient( rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5) ), url(http://teehunter.com/wp-content/uploads/2017/07/Captain-America-Glamour.jpg) 100%;
+  background: linear-gradient( rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5) ), url("capamerica.jpg") 100%;
   background-size: cover;
 }
 
@@ -16,7 +16,7 @@ body {
   padding-top: 100px;
   clear:both;
   font-family: "Courier", sans-serif;
-  font-size: 60px;
+  font-size: 4em;
   color: white;
   text-align: center;
 }
@@ -26,31 +26,22 @@ h2 {
 }
 
 #blurb1 {
-  font-size: 20px;
+  font-size: 1.2em;
   color: white;
 }
 
 #blurb2 {
-  font-size: 30px;
+  font-size: 1.6em;
   color: #cc6533;
 }
 
 div {
-  padding-top: 30px;
+  padding-top: 2em;
 }
 
-.button {
-  font: bold 40px Arial;
-  font-family: "Arial";
-  text-decoration: none;
-  background-color: #222222;
-  color: #eeeeee;
-  padding: 5px 25px 5px 25px;
-  border-top: 3px solid #cc6533;
-  border-right: 3px solid #cc6533;
-  border-bottom: 3px solid #cc6533;
-  border-left: 3px solid #cc6533;
-  border-radius: 30px;
+#go_to_maps {
+  font-size: 2.2em;
+  font-weight: bold;
 }
 
 figcaption {
@@ -64,7 +55,7 @@ figcaption {
 }
 
 .map-thumbnail {
-  padding-top: 40px;
+  padding-top: 2em;
 }
 
 img {
@@ -97,12 +88,14 @@ img:hover {
 <h2 id="blurb1">Don't just create your own world,</br><span id="blurb2">build a path through it.</span></h2>
 
 <div>
-  <a href="./mymaps.html" class="button">Go to My Maps</a>
+  <a href="./mymaps.html" class="button" id="go_to_maps">Go to My Maps</a>
 </div>
 
 <div>
   <figure class="map-thumbnail" id="img1" >
-    <img src="https://images.moviepilot.com/image/upload/c_fill,h_470,q_auto:good,w_620/r1n4xiprwhxgvgeweokd.jpg"  width=300px height=300px>
+    <a href="./map.html" >
+      <img src="bucky.jpg"  width=300px height=300px>
+    </a>
     <div class="caption-container">
       <figcaption>Click to see sample</figcaption>
     </div>
