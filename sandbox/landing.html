@@ -12,6 +12,10 @@ body {
   background-size: cover;
 }
 
+h2 {
+  font-family: "Arial";
+}
+
 #welcome_text {
   padding-top: 100px;
   clear:both;
@@ -21,10 +25,6 @@ body {
   text-align: center;
 }
 
-h2 {
-  font-family: "Arial";
-}
-
 #blurb1 {
   font-size: 1.2em;
   color: white;
@@ -32,7 +32,7 @@ h2 {
 
 #blurb2 {
   font-size: 1.6em;
-  color: #cc6533;
+  color: var(--burntorange);
 }
 
 div {
@@ -84,6 +84,8 @@ img:hover {
     </ul>
 </nav>
 
+<div class="main_wrap">
+
 <h1 id="welcome_text">Welcome to Map Explorer</h1>
 <h2 id="blurb1">Don't just create your own world,</br><span id="blurb2">build a path through it.</span></h2>
 
@@ -100,6 +102,7 @@ img:hover {
       <figcaption>Click to see sample</figcaption>
     </div>
   </figure>
+</div>
 </div>
 
 <footer>
