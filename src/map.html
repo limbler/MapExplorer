@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <link rel="stylesheet" type="text/css" href="styles.css">
+  <link rel="stylesheet" type="text/css" href="dropzonejs/dropzone.css">
+  <link rel="import" href="./header.html">
+  <link rel="import" href="./footer.html">
+</head>
+<body>
+<style>
+body {
+  text-align: center;
+  font-family: monaco, monospace;
+  background: linear-gradient( rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5) ), url('./images/greytexture.jpg') 100%;
+  background-size: cover;
+}
+#map_title {
+  clear:both;
+  font-family: "Courier", sans-serif;
+  font-size: 2em;
+  color: white;
+  text-align: center;
+}
+
+#create_selection_button {
+  display:inline-block;
+  font: 1.2em;
+  float: left;
+  clear: both;
+  margin-top: 0.5em;
+  margin-left: 1em;
+}
+
+#go_back_button {
+  display:inline-block;
+  position: relative;
+  float: top;
+  margin-top: 1.5em;
+  margin-bottom: 1.5em;
+  font-size: 1.3em;
+  clear:both;
+}
+
+#map_active_area {
+  display:inline-block;
+  position: relative;
+  width: 100%;
+  max-width: 1000px;
+}
+
+#map_element {
+  display:inline-block;
+  float: top;
+  position: relative;
+  width: 100%;
+  padding-bottom: 1em;
+  vertical-align: top;
+  overflow: hidden;
+
+  //max-width: 100px;
+  max-height: 800px;
+  clear: both;
+}
+
+#svgimage {
+    //display: inline-block;
+    //position: absolute;
+    float: left;
+    max-height: 700px;
+    top: 0;
+    left: 0;
+}
+
+</style>
+
+<div class="main_wrap">
+
+<h1 id="map_title">Map 1</h1>
+
+<div id="map_active_area">
+<div id="map_element">
+    <svg id="svgimage" xmlns="http://www.w3.org/2000/svg" version="1.1"
+         width="100%" height="100%" viewBox="0 0 620 470" preserveAspectRatio="xMidYMid meet">
+<!-- viewBox="0 0 620 470" -->
+      <defs>
+        <filter id="glow">
+          <feGaussianBlur stdDeviation="1" result="coloredBlur"/>
+          <feMerge>
+              <feMergeNode in="coloredBlur"/>
+              <feMergeNode in="SourceGraphic"/>
+          </feMerge>
+        </filter>
+      </defs>
+
+	    <image id="map_picture" xlink:href="./images/bucky.jpg" x="0" y="0" width="100%" height="100%" />
+
+      <rect x="20" y="20" height="130" width="200" class="map_selection" filter="url(#glow)" onclick="clickedRectangle(evt)"/>
+
+    </svg>
+</div>
+
+<button id="create_selection_button" class="button" onclick="clickedCreateSelection()">Create Selection...</button>
+</div>
+
+<div>
+  <a href="./mymaps.html" id="go_back_button" class="button">Go Back</a>
+</div>
+
+</div>
+
+</body>
+<script src="./jquery-3.2.1.js"></script>
+<script src="./dropzonejs/dropzone.js"></script>
+<script src="./loadcustomdropzone.js"></script>
+<script src="./svg.bundle.js"></script>
+<script src="./svg.customdraw.js"></script>
+<script src="./map.js"></script>
+
+</html>

@@ -1,0 +1,57 @@
+
+:root {
+  --burntorange: #cc6533;
+}
+
+html, body {
+  height: 100%;
+}
+
+.main_wrap {
+  min-height: 100%;
+  overflow: auto;
+  /* padding-nav needs to match the header height! */
+  padding-top: 2.5em;
+  /* padding-bottom needs to match the footer height! */
+  padding-bottom: 1.5em;
+}
+
+
+.button {
+  font-family: "Arial";
+  text-decoration: none;
+  background-color: #222222;
+  color: #eeeeee;
+  padding: .2em 0.8em 0.2em 0.8em;
+  border-top: 3px solid var(--burntorange);
+  border-right: 3px solid var(--burntorange);
+  border-bottom: 3px solid var(--burntorange);
+  border-left: 3px solid var(--burntorange);
+  border-radius: 30px;
+}
+
+rect.map_selection {
+  fill: #fdf339;
+  fill-opacity: 0;
+  stroke-width:3;
+  stroke: #fdf339;
+  stroke-opacity: 0.1;
+}
+
+rect.map_selection:hover {
+  fill-opacity: 0.07;
+  stroke-width:3;
+  stroke-opacity: 0.7;
+}
+
+/* this is just a combo of mapselection & hover */
+rect.map_selection_highlight {
+  fill: #fdf339;
+  fill-opacity: 0;
+  stroke-width:3;
+  stroke: #fdf339;
+  stroke-opacity: 0.1;
+  fill-opacity: 0.07;
+  stroke-width:3;
+  stroke-opacity: 0.7;
+}

@@ -1,0 +1,90 @@
+<!-- Generic header element for all pages -->
+
+<style>
+
+nav {
+  background-color: #191919;
+  clear: both;
+  font-family: sans-serif;
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  /* always want user to be able to see nav */
+  z-index: 1;
+  margin-top: 0em;
+  margin-bottom: 0em;
+}
+
+nav > ul *:hover {
+  color: var(--burntorange);
+}
+
+nav > ul {
+  margin: 0.1em;
+}
+
+ul.left_nav  {
+  float: left;
+  font-family: "Courier";
+  font-size: 1.7em;
+}
+
+ul.left_nav * {
+  color: white;
+  text-decoration: none;
+  display: inline;
+}
+
+ul.right_nav {
+  float: right;
+  font-family: "Arial", sans-serif;
+  font-size: 1.2em;
+  line-height: 150%;
+}
+
+ul.right_nav * {
+  color: white;
+  text-decoration: none;
+  display: inline;
+}
+
+ul.right_nav > li {
+  padding-right: 1em;
+}
+
+ul.right_nav > li > a {
+  padding = 0;
+  margin = 0;
+}
+
+</style>
+
+<nav id="my_header">
+    <ul class="left_nav">
+      <li><a href="./index.html">MapExplorer</a></li>
+    </ul>
+    <ul class="right_nav">
+      <li> <a href="./about.html">About</a></li>
+      <li onclick="clickedSignIn()">Sign In</li>
+      <li> <a href="https://www.paypal.com/" target="_blank" id="donatelink">Donate</a></li>
+    </ul>
+</nav>
+
+<script>
+// thisDoc refers to the "importee", which is this file
+var thisDoc = document.currentScript.ownerDocument;
+
+// thatDoc refers to the "importer", e.g. index.html
+var thatDoc = document;
+
+// grab the contents of the desired element from this document
+// and append it to the importing document.
+var content = thisDoc.querySelector('#my_header');
+thatDoc.body.insertBefore(thatDoc.importNode(content, true), thatDoc.body.firstChild);
+
+function clickedSignIn() {
+  alert("Sorry, Sign In not implemented yet!");
+}
+
+</script>

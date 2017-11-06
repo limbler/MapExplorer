@@ -1,0 +1,45 @@
+<!-- Generic footer element for all pages -->
+
+<style>
+footer {
+  background-color: #191919;
+  color: #777777;
+  clear: both;
+  text-align: left;
+  position: relative;
+  margin-top: -1.5em;
+  height: 1.5em;
+  width: 100%;
+  text-decoration: none;
+  text-align: right;
+  font-size: 0.8em;
+  padding: 0;
+}
+
+footer > p {
+    margin : 0.5em;
+}
+
+footer * {
+  color: #777777;
+}
+</style>
+
+<footer id="my_footer">
+  <p>Created by Laura I. Contact information: <a href="mailto:someone@example.com">
+  someone@example.com</a>.</p>
+</footer>
+
+<script>
+// thisDoc refers to the "importee", which is footer.html
+var thisDoc = document.currentScript.ownerDocument;
+
+// thatDoc refers to the "importer", e.g. index.html
+var thatDoc = document;
+
+// grab the contents of the desired element from this document
+// and append it to the importing document.
+var content = thisDoc.querySelector('#my_footer');
+thatDoc.body.appendChild(thatDoc.importNode(content, true));
+
+</script>

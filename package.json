@@ -1,0 +1,33 @@
+{
+  "name": "mapexplorer",
+  "version": "1.0.0",
+  "description": "Create your own journey through a series of images",
+  "main": "TESTEXPRESS.js",
+  "dependencies": {
+    "express": "^4.16.2",
+    "express-fileupload": "^0.3.0",
+    "svg.draw.js": "^2.0.3",
+    "svg.js": "^2.6.3"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/limbler/MapExplorer.git"
+  },
+  "keywords": [
+    "mapexplorer",
+    "javascript",
+    "html",
+    "css",
+    "node"
+  ],
+  "author": "Laura Imbler",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/limbler/MapExplorer/issues"
+  },
+  "homepage": "https://github.com/limbler/MapExplorer#readme"
+}
