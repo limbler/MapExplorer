@@ -2,7 +2,7 @@
 
 <style>
 
-nav {
+.myHeaderNav {
   background-color: #191919;
   clear: both;
   font-family: sans-serif;
@@ -16,11 +16,11 @@ nav {
   margin-bottom: 0em;
 }
 
-nav > ul *:hover {
+.myHeaderNav > ul *:hover {
   color: var(--burntorange);
 }
 
-nav > ul {
+.myHeaderNav > ul {
   margin: 0.1em;
 }
 
@@ -60,7 +60,7 @@ ul.right_nav > li > a {
 
 </style>
 
-<nav id="my_header">
+<nav id="my_header" class="myHeaderNav">
     <ul class="left_nav">
       <li><a href="./index.html">MapExplorer</a></li>
     </ul>
@@ -86,5 +86,10 @@ thatDoc.body.insertBefore(thatDoc.importNode(content, true), thatDoc.body.firstC
 function clickedSignIn() {
   alert("Sorry, Sign In not implemented yet!");
 }
+
+// Export the styles to the master doc
+var importDoc = document.currentScript.ownerDocument;
+var style = importDoc.querySelector('style');
+document.head.appendChild(style);
 
 </script>

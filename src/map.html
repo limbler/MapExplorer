@@ -8,12 +8,7 @@
 </head>
 <body>
 <style>
-body {
-  text-align: center;
-  font-family: monaco, monospace;
-  background: linear-gradient( rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5) ), url('./images/greytexture.jpg') 100%;
-  background-size: cover;
-}
+
 #map_title {
   clear:both;
   font-family: "Courier", sans-serif;
@@ -22,28 +17,10 @@ body {
   text-align: center;
 }
 
-#create_selection_button {
-  display:inline-block;
-  font: 1.2em;
-  float: left;
-  clear: both;
-  margin-top: 0.5em;
-  margin-left: 1em;
-}
-
-#go_back_button {
-  display:inline-block;
-  position: relative;
-  float: top;
-  margin-top: 1.5em;
-  margin-bottom: 1.5em;
-  font-size: 1.3em;
-  clear:both;
-}
-
 #map_active_area {
   display:inline-block;
   position: relative;
+  background-color: #191919;
   width: 100%;
   max-width: 1000px;
 }
@@ -57,18 +34,35 @@ body {
   vertical-align: top;
   overflow: hidden;
 
-  //max-width: 100px;
+  max-width: 1000px;
   max-height: 800px;
   clear: both;
 }
 
 #svgimage {
-    //display: inline-block;
-    //position: absolute;
     float: left;
-    max-height: 700px;
+    max-height: 800px;
     top: 0;
     left: 0;
+}
+
+#map_tools {
+  display:inline-block;
+  width: 100%;
+  max-width: 1000px;
+  max-height: 800px;
+  clear: both;
+  margin-top: 0.4em;
+}
+
+#create_selection_button {
+  font: 1.2em;
+  float: left;
+}
+
+#go_back_button {
+  font-size: 1.3em;
+  line-height: 200%;
 }
 
 </style>
@@ -78,10 +72,9 @@ body {
 <h1 id="map_title">Map 1</h1>
 
 <div id="map_active_area">
-<div id="map_element">
+  <div id="map_element">
     <svg id="svgimage" xmlns="http://www.w3.org/2000/svg" version="1.1"
-         width="100%" height="100%" viewBox="0 0 620 470" preserveAspectRatio="xMidYMid meet">
-<!-- viewBox="0 0 620 470" -->
+        width="100%" height="100%" viewBox="0 0 438 467" preserveAspectRatio="xMidYMid meet">
       <defs>
         <filter id="glow">
           <feGaussianBlur stdDeviation="1" result="coloredBlur"/>
@@ -91,20 +84,32 @@ body {
           </feMerge>
         </filter>
       </defs>
-
-	    <image id="map_picture" xlink:href="./images/bucky.jpg" x="0" y="0" width="100%" height="100%" />
-
-      <rect x="20" y="20" height="130" width="200" class="map_selection" filter="url(#glow)" onclick="clickedRectangle(evt)"/>
-
+      <!--TODO: add placeholder image-->
+      <image id="map_picture" xlink:href="./images/add_map_icon.png" x="0" y="0" width="0" height="0" />
+      <!--<rect x="20" y="20" height="130" width="200" class="map_selection" filter="url(#glow)" onclick="clickedRectangle(evt)"/>-->
     </svg>
+  </div>
+
+  <a hidden href="#mapModal" id="hiddenModalLink" ></a>
+  <div id="mapModal" class="modalDialog">
+  	<div >
+  		<a href="#close" title="Close" class="close">X</a>
+  		<h2>Onward!</h2>
+  		<p>Where does this selection lead to?</p>
+      <form action="/upload-file" method="post"
+        class="dropzone"
+        id="my-awesome-dropzone">
+      </form>
+    </div>
+  </div>
+
+  <div id="map_tools">
+    <input type="button" id="create_selection_button" class="button" onclick="clickedCreateSelection()" value="Create Selection..."></input>
+    <a href="./mymaps.html" id="go_back_button" class="button">Go Back</a>
+  </div>
 </div>
 
-<button id="create_selection_button" class="button" onclick="clickedCreateSelection()">Create Selection...</button>
-</div>
 
-<div>
-  <a href="./mymaps.html" id="go_back_button" class="button">Go Back</a>
-</div>
 
 </div>
 

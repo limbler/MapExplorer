@@ -3,31 +3,72 @@
 $(function(){
   loadcustomdropzone();
 
-  //Set the viewbox attribute
-  //var address = document.getElementById("map_picture").getAttribute('xlink:href');
-  //var myPicture = new Image();
-  //myPicture.src = address;
-  //alert("picture height: " + myPicture.width);
+  //initialize my image
+  var img = new Image();
+  img.onload = function() {
+    var svgcontainer = document.getElementById('svgimage');
+    var viewboxstr = "0 0 " + this.width + " " + this.height;
 
-  //$("#svgimage").viewBox([0, 0, myPicture.width, myPicture.height].join(" "));
-  //shape = document.getElementbyId("svgimage");
-  //shape.setAttribute("viewBox", "0 0 620 470");
+    // Resize the SVG image to fit
+    $('#svgimage').attr("viewBox", viewboxstr);
+    $('#map_picture').attr("width", this.width);
+    $('#map_picture').attr("height", this.height);
+    $('#map_picture').attr("xlink:href", img.src);
 
-  //alert(window.screen.height);
-  //document.getElementById("map_element").style.maxWidth = window.screen.availWidth;
-  //document.getElementById("map_element").style.maxHeight = window.screen.availHeight;
+    // now shrink the container div to the svg size
+    //$('#map_active_area').attr("max_width", this.width);
+    //$('#map_active_area').attr("width", this.width);
+    //$('#map_active_area').attr("max-width", this.width);
+    //$('#map_tools').attr("max_width", this.width);
+    //$('#map_tools').attr("width", this.width);
 
-  //window.addEventListener('resize', resizeFunc, false);
-  //function resizeFunc()
-  //{
-  //}
+    //alert("mapelement width: " + $('#map_element').attr("width") + " height " + $('#map_element').attr("height"));
+
+
+  }
+  img.src = './images/bucky.jpg';
 });
 
+var creating_selection = false;
+var ready_to_save = false;
 // Grab our image to use as drawing board
 var draw = SVG.adopt(document.getElementById('svgimage'))
 var rect = null;	// initialize variable
 
+function clickedCreateSelection() {
+  if (!creating_selection) {
+    creating_selection = true;
+    setButtonToCreating();
+    ready_to_save = false;
+  }
+  else {
+    // if there's a selection in progress, kill it
+    if (rect && !ready_to_save) {
+        rect.remove();
+    }
+    rect = null;
+
+    // otherwise that rectangle is already nicely saved in teh SVG element.
+    // pop up a modal dialog for adding a file
+    document.getElementById("hiddenModalLink").click();
+    //document.getElementById('mapModal').style.opacity = "1";
+    //document.getElementById('mapModal').style.pointerEvents = "auto";
+    creating_selection = false;
+    setButtonToDefaults();
+  }
+}
+
 draw.on('mousedown', function(event){
+    if (!creating_selection) {
+      return;
+    }
+
+    // if an unsaved rectangle already exists, delete it
+    if (ready_to_save) {
+      rect.remove();
+      rect = null;
+    }
+
     // If we are starting a new rectangle, initialize it
     // and start the drawing
     if (!rect) {
@@ -37,6 +78,8 @@ draw.on('mousedown', function(event){
           class: 'map_selection_highlight'
         })
       rect.draw(event);
+      setButtonToCreating();
+      ready_to_save = false;
     }
     // If we are finishing the rectangle,
     // Close it off and then set it to null
@@ -44,128 +87,37 @@ draw.on('mousedown', function(event){
     else {
       rect.attr({
           filter: 'url(#glow)',
-          class: 'map_selection'
+          class: 'map_selection',
+          onclick: 'clickedRectangle(evt)'
         })
       rect.draw(event);
-      rect = null;
+      setButtonToSave();
+      ready_to_save = true;
     }
 });
-
-var main_image = document.getElementById('map_picture');
-//main_image.addEventListener("mousedown", startRectangle);
-//main_image.addEventListener("mousemove", dragRectangle);
-//main_image.addEventListener("mouseup", endRectangle);
-var new_rectangle = null;
-
-//main_image.addEventListener("mouseup", endRectangle);
-var creating_selection = false;
-var dragging_selection = false;
-//var selections = [];
-
-function generateNewRectangle() {
-  // Create the svg element to manipulate
-  var svgns = "http://www.w3.org/2000/svg";
-  var rect = document.createElementNS(svgns, 'rect');
-  rect.setAttributeNS(null, 'x', 0);
-  rect.setAttributeNS(null, 'y', 0);
-  rect.setAttributeNS(null, 'height', '0');
-  rect.setAttributeNS(null, 'width', '0');
-  rect.setAttributeNS(null, 'class', 'map_selection');
-  rect.setAttributeNS(null, 'filter', 'url(#glow)');
-  rect.setAttributeNS(null, 'onclick', "clickedRectangle(evt)");
-  document.getElementById('svgimage').appendChild(rect);
-
-  return rect;
-}
-
-function startRectangle(evt) {
-
-  draw.rect().draw()	// Here we init a rectangle and start drawing it
-  //if (creating_selection == false) {
-  //  alert("Didn't click create selection first!")
-  //  return;
-  //}
-  /*
-  new_rectangle = generateNewRectangle();
-  if (!new_rectangle) {
-    alert("Rectangle didn't get instantiated!")
-  }
-
-  var e = evt.target;
-  var dim = e.getBoundingClientRect();
-  var x = evt.clientX - dim.left;
-  var y = evt.clientY - dim.top;
-  new_rectangle.setAttributeNS(null, 'x', x);
-  new_rectangle.setAttributeNS(null, 'y', y);
-
-  dragging_selection = true;
-  creating_selection = true;
-  */
-}
-
-function dragRectangle(evt) {
-  if (!creating_selection || !dragging_selection) {
-    return;
-  }
-  var e = evt.target;
-  var dim = e.getBoundingClientRect();
-  var mouse_x = evt.clientX - dim.left;
-  var mouse_y = evt.clientY - dim.top;
-  var current_x = new_rectangle.getAttribute('x');
-  var current_y = new_rectangle.getAttribute('y');
-
-  // if values are greater than top left corner, can just change width/height
-  if (mouse_x > current_x) {
-    var new_width = mouse_x - current_x;
-    new_rectangle.setAttributeNS(null, 'width', new_width);
-  }
-  if (mouse_y > current_y) {
-    var new_height = mouse_y - current_y;
-    new_rectangle.setAttributeNS(null, 'height', new_height);
-  }
-
-  // if user is pulling backwards, e.g. rigth to left,
-  // need to move the start corner to avoid things going negative
-  // (which doesn't work for SVG)
-  if (mouse_x < current_x ) {
-    new_rectangle.setAttributeNS(null, 'x', mouse_x);
-    new_rectangle.setAttributeNS(null, 'width', current_x - mouse_x);
-  }
-  if (mouse_y < current_y) {
-    new_rectangle.setAttributeNS(null, 'y', mouse_y);
-    new_rectangle.setAttributeNS(null, 'height', current_y - mouse_y);
-  }
-
-}
-
-function endRectangle(evt) {
-  creating_selection = false;
-  dragging_selection = false;
-  if (!creating_selection || !dragging_selection) {
-    return;
-  }
-  new_rectangle.setAttributeNS(null, 'height', '50');
-  new_rectangle.setAttributeNS(null, 'width', '50');
-  document.getElementById('create_selection_button').style.background="purple";
-}
-
-function clickedCreateSelection() {
-  //creating_selection = true;
-  document.getElementById('create_selection_button').style.background="white";
-}
-
-function clickedImg(evt) {
-  var e = evt.target;
-  var dim = e.getBoundingClientRect();
-  var x = evt.clientX - dim.left;
-  var y = evt.clientY - dim.top;
-  alert("clicked image! x: "+x+" y:"+y);
-}
 
 function clickedRectangle(evt) {
   var e = evt.target;
   var dim = e.getBoundingClientRect();
   var x = evt.clientX - dim.left;
   var y = evt.clientY - dim.top;
-  alert("clicked rectangle! x: "+x+" y:"+y);
+  //alert("clicked rectangle! x: "+x+" y:"+y);
+}
+
+function setButtonToCreating() {
+  document.getElementById('create_selection_button').style.background="#222222";
+  document.getElementById('create_selection_button').value = "Creating Selection";
+  document.getElementById('create_selection_button').style.boxShadow = "0 0 15px #cc6533";
+}
+
+function setButtonToSave() {
+  document.getElementById('create_selection_button').style.background="#cc6533";
+  document.getElementById('create_selection_button').value = "Save Selection";
+  document.getElementById('create_selection_button').style.boxShadow = "0 0 15px #cc6533";
+}
+
+function setButtonToDefaults() {
+  document.getElementById('create_selection_button').style.background="#222222";
+  document.getElementById('create_selection_button').value = "Create Selection";
+  document.getElementById('create_selection_button').style.boxShadow = "none";
 }

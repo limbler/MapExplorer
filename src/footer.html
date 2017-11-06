@@ -1,7 +1,7 @@
 <!-- Generic footer element for all pages -->
 
 <style>
-footer {
+.myFooter {
   background-color: #191919;
   color: #777777;
   clear: both;
@@ -16,16 +16,16 @@ footer {
   padding: 0;
 }
 
-footer > p {
+.myFooter > p {
     margin : 0.5em;
 }
 
-footer * {
+.myFooter * {
   color: #777777;
 }
 </style>
 
-<footer id="my_footer">
+<footer id="my_footer" class="myFooter">
   <p>Created by Laura I. Contact information: <a href="mailto:someone@example.com">
   someone@example.com</a>.</p>
 </footer>
@@ -41,5 +41,10 @@ var thatDoc = document;
 // and append it to the importing document.
 var content = thisDoc.querySelector('#my_footer');
 thatDoc.body.appendChild(thatDoc.importNode(content, true));
+
+// Export the styles to the master doc so it can apply them
+var importDoc = document.currentScript.ownerDocument;
+var style = importDoc.querySelector('style');
+document.head.appendChild(style);
 
 </script>
