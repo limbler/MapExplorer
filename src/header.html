@@ -1,75 +1,76 @@
-<!-- Generic header element for all pages -->
-
+<!-- Generic header element for all pages-->
+<head>
+  <link rel="stylesheet" type="text/css" href="styles.css">
+</head>
 <style>
 
-.myHeaderNav {
+/* Header */
+header {
   background-color: #191919;
-  clear: both;
-  font-family: sans-serif;
-  position: fixed;
-  left: 0;
-  top: 0;
-  width: 100%;
-  /* always want user to be able to see nav */
-  z-index: 1;
-  margin-top: 0em;
-  margin-bottom: 0em;
+  color: #ffffff;
+  padding-top: 20px;
+  min-height: 40px;
+  border-bottom: var(--burntorange) 3px solid;
 }
 
-.myHeaderNav > ul *:hover {
-  color: var(--burntorange);
+header a {
+  color: #ffffff;
+  text-decoration: none;
+  font-size: 18px;
 }
 
-.myHeaderNav > ul {
-  margin: 0.1em;
+header li {
+  float:left;
+  display:inline;
+  padding: 0 20px 0 20px;
 }
 
-ul.left_nav  {
-  float: left;
+header #branding{
+  float:left;
+  margin-top:-12px;
+}
+
+header #branding a {
   font-family: "Courier";
-  font-size: 1.7em;
+  font-size: 0.8em;
 }
 
-ul.left_nav * {
-  color: white;
-  text-decoration: none;
-  display: inline;
+header #branding h1 {
+  margin:0;
 }
 
-ul.right_nav {
-  float: right;
-  font-family: "Arial", sans-serif;
-  font-size: 1.2em;
-  line-height: 150%;
+header nav {
+  float:right;
+  margin-top:0px;
 }
 
-ul.right_nav * {
-  color: white;
-  text-decoration: none;
-  display: inline;
+header .highlight, header .current a {
+  color:var(--burntorange);
+  font-weight:bold;
 }
 
-ul.right_nav > li {
-  padding-right: 1em;
-}
-
-ul.right_nav > li > a {
-  padding = 0;
-  margin = 0;
+header a:hover{
+  color:var(--burntorange);
+  font-weight:bold;
 }
 
 </style>
 
-<nav id="my_header" class="myHeaderNav">
-    <ul class="left_nav">
-      <li><a href="./index.html">MapExplorer</a></li>
-    </ul>
-    <ul class="right_nav">
-      <li> <a href="./about.html">About</a></li>
-      <li onclick="clickedSignIn()">Sign In</li>
-      <li> <a href="https://www.paypal.com/" target="_blank" id="donatelink">Donate</a></li>
-    </ul>
-</nav>
+<header id="myheader">
+  <div class="container">
+    <div id="branding">
+      <h1><a href="./index.html"><span class="highlight">MapExplorer</span></a></h1>
+    </div>
+    <nav>
+        <ul>
+          <li class="current"> <a href="./index.html">Home</a></li>
+          <li> <a href="./about.html">About</a></li>
+          <li> <a onclick="clickedSignIn()" href="./">Sign In</a></li>
+          <li> <a href="https://www.paypal.com/" target="_blank" id="donatelink">Donate</a></li>
+        </ul>
+    </nav>
+  </div>
+</header>
 
 <script>
 // thisDoc refers to the "importee", which is this file
@@ -80,7 +81,7 @@ var thatDoc = document;
 
 // grab the contents of the desired element from this document
 // and append it to the importing document.
-var content = thisDoc.querySelector('#my_header');
+var content = thisDoc.querySelector('#myheader');
 thatDoc.body.insertBefore(thatDoc.importNode(content, true), thatDoc.body.firstChild);
 
 function clickedSignIn() {

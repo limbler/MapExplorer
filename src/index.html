@@ -1,36 +1,41 @@
 <!DOCTYPE html>
 <html>
 <head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <meta name="description" content="Build your own adventure through a series of images"/>
+  <meta name="keywords" content="2D, art, adventure, DIY, build your own"/>
+  <meta name="author" content="Laura Imbler"/>
+  <title>Map Explorer | Welcome </title>
   <link rel="stylesheet" type="text/css" href="styles.css">
-  <link rel="stylesheet" type="text/css" href="headerfooter.css">
   <link rel="import" href="./header.html">
   <link rel="import" href="./footer.html">
 </head>
 <body>
 <style>
 body {
-  text-align: center;
-  font-family: monaco, monospace;
-  background: linear-gradient( rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5) ), url("./images/capamerica.jpg") 100%;
-  background-size: cover;
+  //text-align: center;
+  //font-family: monaco, monospace;
+  //background: linear-gradient( rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5) ), url("./images/capamerica.jpg") 100%;
+  //background-size: cover;
 }
 
-h2 {
-  font-family: "Arial";
+#showcase {
+  min-height: 425px;
+  background: linear-gradient( rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5) ), url("./images/capamerica.jpg") no-repeat ;
+  text-align: center;
+  color: white;
 }
 
 #welcome_text {
-  padding-top: 100px;
-  clear:both;
   font-family: "Courier", sans-serif;
-  font-size: 4em;
-  color: white;
-  text-align: center;
+  margin-top: 100px;
+  font-size: 3.5em;
+  margin-bottom:10px;
 }
 
 #blurb1 {
   font-size: 1.2em;
-  color: white;
 }
 
 #blurb2 {
@@ -38,8 +43,8 @@ h2 {
   color: var(--burntorange);
 }
 
-.index_div {
-  padding-top: 2em;
+#mymaps_button_container {
+  padding: 3em;
 }
 
 #go_to_maps {
@@ -47,25 +52,70 @@ h2 {
   font-weight: bold;
 }
 
-figcaption {
-  color:white;
-  font-family: sans-serif;
-  font-size: 20px;
+/* boxes */
+#samples{
+  margin-top:15px;
+  margin-bottom: 30px;
 }
 
-.caption-container {
-  padding-top: 0px;
+#samples .sample_box {
+  float:left;
+  width: 33%;
+  height: 450px;
+  padding:0px;
+  text-align: center;
+}
+
+#samples .sample_box h3 {
+  color:white;
+  font-family:  "Courier", Arial, sans-serif;
+  font-size: 1.5em;
+  text-align: center;
 }
 
 .map-thumbnail {
-  padding-top: 2em;
+  display: inline-block;
+  min-width: 100px;
+  min-height: 200px;
+  height: 100%;
+  width: 98%;
 }
 
-img {
-  border-radius: 8px;
+.map-thumbnail a {
+  display: block;
+  width: 100%;
+  height: 100%;
 }
 
-img:hover {
+#img1 {
+  background: url(./images/bucky.jpg) 50% 50% no-repeat; /* 50% 50% centers image in div */
+}
+
+#img2 {
+  background: url(./images/blackwidow.PNG) 50% 50% no-repeat; /* 50% 50% centers image in div */
+}
+
+#img3 {
+  background: url(./images/capamerica.jpg) 50% 50% no-repeat;
+}
+
+figcaption {
+  color:white;
+  font-family: "Courier", sans-serif;
+  font-size: 18px;
+}
+
+.caption-container {
+  display:block;
+  float:left;
+  width: 100%;
+  height: 50px;
+  line-height: 50px;
+  padding:0px;
+  text-align: center;
+}
+
+.map-thumbnail:hover {
   -webkit-filter: brightness(70%);
     -webkit-transition: all 0.5s ease;
     -moz-transition: all 0.5s ease;
@@ -78,23 +128,49 @@ img:hover {
 
 <div class="main_wrap">
 
-<h1 id="welcome_text">Welcome to Map Explorer</h1>
-<h2 id="blurb1">Don't just create your own world,</br><span id="blurb2">build a path through it.</span></h2>
 
-<div class="index_div">
-  <a href="./mymaps.html" class="button" id="go_to_maps">Go to My Maps</a>
-</div>
+<section id="showcase">
+  <div class="container">
+    <h1 id="welcome_text">Welcome to Map Explorer</h1>
+    <h2 id="blurb1">Don't just create your own world,</br><span id="blurb2">build a path through it.</span></h2>
 
-<div class="index_div">
-  <figure class="map-thumbnail" id="img1" >
-    <a href="./map.html" >
-      <img src="./images/bucky.jpg"  width=300px height=300px>
-    </a>
-    <div class="caption-container">
-      <figcaption>Click to see sample</figcaption>
+    <div id="mymaps_button_container">
+      <a href="./mymaps.html" class="button" id="go_to_maps">Go to My Maps</a>
     </div>
-  </figure>
-</div>
+  </div>
+</section>
+
+<section id="samples">
+  <div class="container">
+    <div class="sample_box">
+      <h3>Design a World</h3>
+      <div class="map-thumbnail" id="img1" >
+        <a href="./map.html"></a>
+      </div>
+      <div class="caption-container">
+        <figcaption>Sample Art Map</figcaption>
+      </div>
+    </div>
+    <div class="sample_box">
+      <h3>Tell a Story</h3>
+      <div class="map-thumbnail"  id="img2">
+        <a href="./map.html"></a>
+        <div class="caption-container">
+          <figcaption>Sample Storytelling Map</figcaption>
+        </div>
+      </div>
+    </div>
+    <div class="sample_box">
+      <h3>And More...</h3>
+      <div class="map-thumbnail"  id="img3">
+        <a href="./map.html"></a>
+        <div class="caption-container">
+          <figcaption>Sample Travel Journal</figcaption>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
 </div>
 
 <script src="./jquery-3.2.1.js"></script>
