@@ -66,21 +66,8 @@
   text-align: center;
 }
 
-#samples .sample_box a {
-  text-decoration: none;
-}
-
-#samples .sample_box h3 {
-  color:white;
-  font-family:  "Courier", Arial, sans-serif;
-  font-size: 2em;
-  text-align: center;
-  margin-top: 20px;
-  //z-index: -1;
-
-}
-
 .map-thumbnail {
+  text-decoration: none;
   display: inline-block;
   min-width: 100px;
   min-height: 200px;
@@ -88,10 +75,13 @@
   width: 96%;
 }
 
-.map-thumbnail a {
-  display: block;
-  width: 100%;
-  height: 100%;
+.map-thumbnail h3 {
+  color:white;
+  font-family:  "Courier", Arial, sans-serif;
+  font-size: 2em;
+  text-align: center;
+  margin-top: 20px;
+  opacity: 0.8;
 }
 
 .map-thumbnail:hover {
@@ -159,22 +149,13 @@
 <section id="samples">
   <div class="container">
     <div class="sample_box">
-      <div class="map-thumbnail" id="img1" >
-        <a href="./map.html"><h3>Design a World</h3></a>
-        <a href="./map.html"></a>
-      </div>
+      <a href="./map.html" class="map-thumbnail" id="img1"><h3>Design a World</h3></a>
     </div>
     <div class="sample_box">
-      <div class="map-thumbnail"  id="img2">
-        <a href="./map.html"><h3>Tell a Story</h3></a>
-        <a href="./map.html"></a>
-      </div>
+      <a href="./about.html" class="map-thumbnail" id="img2"><h3>Tell a Story</h3></a>
     </div>
     <div class="sample_box">
-      <div class="map-thumbnail"  id="img3">
-        <a href="./map.html"><h3>And More...</h3></a>
-        <a href="./map.html"></a>
-      </div>
+      <a href="./map.html" class="map-thumbnail" id="img3"><h3>And More...</h3></a>
     </div>
   </div>
 </section>

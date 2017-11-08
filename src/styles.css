@@ -55,6 +55,10 @@ ul {
   cursor: pointer;
 }
 
+.invisible {
+  opacity: 0;
+}
+
 rect.map_selection {
   fill: #fdf339;
   fill-opacity: 0;
