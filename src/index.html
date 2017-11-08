@@ -13,48 +13,48 @@
 </head>
 <body>
 <style>
-body {
-  //text-align: center;
-  //font-family: monaco, monospace;
-  //background: linear-gradient( rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5) ), url("./images/capamerica.jpg") 100%;
-  //background-size: cover;
+
+#header-home a {
+  color:var(--burntorange);
+  font-weight:bold;
 }
 
+/* Showcase */
 #showcase {
-  min-height: 425px;
-  background: linear-gradient( rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5) ), url("./images/capamerica.jpg") no-repeat ;
+  min-height: 500px;
+  background: linear-gradient( rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5) ), url("./images/capamerica.jpg") 50% 10%no-repeat ;
   text-align: center;
   color: white;
 }
 
-#welcome_text {
+#showcase #welcome_text {
   font-family: "Courier", sans-serif;
-  margin-top: 100px;
+  margin-top: 110px;
   font-size: 3.5em;
-  margin-bottom:10px;
+  margin-bottom:20px;
 }
 
-#blurb1 {
+#showcase #blurb1 {
   font-size: 1.2em;
 }
 
-#blurb2 {
+#showcase #blurb2 {
   font-size: 1.6em;
   color: var(--burntorange);
 }
 
-#mymaps_button_container {
+#showcase #mymaps_button_container {
   padding: 3em;
 }
 
-#go_to_maps {
+#showcase #go_to_maps {
   font-size: 2.2em;
   font-weight: bold;
 }
 
-/* boxes */
+/* Boxes */
 #samples{
-  margin-top:15px;
+  margin-top:40px;
   margin-bottom: 30px;
 }
 
@@ -66,11 +66,18 @@ body {
   text-align: center;
 }
 
+#samples .sample_box a {
+  text-decoration: none;
+}
+
 #samples .sample_box h3 {
   color:white;
   font-family:  "Courier", Arial, sans-serif;
-  font-size: 1.5em;
+  font-size: 2em;
   text-align: center;
+  margin-top: 20px;
+  //z-index: -1;
+
 }
 
 .map-thumbnail {
@@ -78,41 +85,13 @@ body {
   min-width: 100px;
   min-height: 200px;
   height: 100%;
-  width: 98%;
+  width: 96%;
 }
 
 .map-thumbnail a {
   display: block;
   width: 100%;
   height: 100%;
-}
-
-#img1 {
-  background: url(./images/bucky.jpg) 50% 50% no-repeat; /* 50% 50% centers image in div */
-}
-
-#img2 {
-  background: url(./images/blackwidow.PNG) 50% 50% no-repeat; /* 50% 50% centers image in div */
-}
-
-#img3 {
-  background: url(./images/capamerica.jpg) 50% 50% no-repeat;
-}
-
-figcaption {
-  color:white;
-  font-family: "Courier", sans-serif;
-  font-size: 18px;
-}
-
-.caption-container {
-  display:block;
-  float:left;
-  width: 100%;
-  height: 50px;
-  line-height: 50px;
-  padding:0px;
-  text-align: center;
 }
 
 .map-thumbnail:hover {
@@ -124,10 +103,47 @@ figcaption {
     transition: all 0.2s ease;
 }
 
+/* Set thumbnail images */
+#img1 {
+  background: url(./images/bucky.jpg) 50% 50% no-repeat; /* 50% 50% centers image in div */
+}
+
+#img2 {
+  background: url(./images/blackwidow.PNG) 50% 50% no-repeat;
+}
+
+#img3 {
+  background: url(./images/capamerica.jpg) 50% 50% no-repeat;
+}
+
+/* Tablet settings */
+@media(max-width: 768px){
+  #go_to_maps {
+    font-size: 1.5em;
+  }
+  #showcase h1 {
+    margin-top:40px;
+  }
+
+  #showcase#mymaps_button_container {
+    display:block;
+    width:100%;
+  }
+
+  #samples{
+    margin-top:20px;
+    margin-bottom: 30px;
+  }
+
+  #samples .sample_box{
+    float:none;
+    text-align:center;
+    width:100%;
+    margin-top:20px;
+  }
+}
+
 </style>
-
-<div class="main_wrap">
-
 
 <section id="showcase">
   <div class="container">
@@ -143,37 +159,25 @@ figcaption {
 <section id="samples">
   <div class="container">
     <div class="sample_box">
-      <h3>Design a World</h3>
       <div class="map-thumbnail" id="img1" >
+        <a href="./map.html"><h3>Design a World</h3></a>
         <a href="./map.html"></a>
-      </div>
-      <div class="caption-container">
-        <figcaption>Sample Art Map</figcaption>
       </div>
     </div>
     <div class="sample_box">
-      <h3>Tell a Story</h3>
       <div class="map-thumbnail"  id="img2">
+        <a href="./map.html"><h3>Tell a Story</h3></a>
         <a href="./map.html"></a>
-        <div class="caption-container">
-          <figcaption>Sample Storytelling Map</figcaption>
-        </div>
       </div>
     </div>
     <div class="sample_box">
-      <h3>And More...</h3>
       <div class="map-thumbnail"  id="img3">
+        <a href="./map.html"><h3>And More...</h3></a>
         <a href="./map.html"></a>
-        <div class="caption-container">
-          <figcaption>Sample Travel Journal</figcaption>
-        </div>
       </div>
     </div>
   </div>
 </section>
-</div>
-
-<script src="./jquery-3.2.1.js"></script>
 
 </body>
 </html>

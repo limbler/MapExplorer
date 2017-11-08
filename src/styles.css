@@ -1,6 +1,7 @@
 
 :root {
   --burntorange: #cc6533;
+  --darkgrey: #191919;
 }
 
 html, body {
@@ -31,11 +32,12 @@ ul {
 .main_wrap {
   overflow: auto;
   /* padding-nav needs to match the header height! */
-  padding-top: 2.5em;
+  padding-top: 2.2em;
   /* padding-bottom needs to match the footer height! */
-  padding-bottom: 1.5em;
-  /* min-height taking into account header/footer */
-  min-height: calc(100% - 4em);
+  padding-bottom: 2.2em;
+  /* min-height taking into account header, footer, and the wrap padding */
+  /* plus a little extra for some reason */
+  min-height: calc(100% - 9em);
 }
 
 
@@ -99,7 +101,7 @@ rect.map_selection_highlight {
 }
 
 .modalDialog > div {
-	width: 800px;
+	width: 70%;
 	position: relative;
 	margin: 10% auto;
 	padding: 5px 20px 13px 20px;
@@ -133,4 +135,100 @@ rect.map_selection_highlight {
 
 .custom_dropzone {
   background: linear-gradient( rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5) ) 100%;
+}
+
+/* Header */
+header {
+  background-color: var(--darkgrey);
+  color: #ffffff;
+  padding-top: 20px;
+  min-height: 2.6em;
+  border-bottom: var(--burntorange) 3px solid;
+}
+
+header a {
+  color: #ffffff;
+  text-decoration: none;
+  font-size: 18px;
+}
+
+header li {
+  float:left;
+  display:inline;
+  padding: 0 20px 0 20px;
+}
+
+header #branding{
+  float:left;
+  margin-top:-12px;
+}
+
+header #branding a {
+  font-family: "Courier";
+  font-size: 0.85em;
+}
+
+header #branding h1 {
+  margin:0;
+}
+
+header nav {
+  float:right;
+  margin-top:0px;
+}
+
+header .highlight, header .current a {
+  color:var(--burntorange);
+  font-weight:bold;
+}
+
+header a:hover{
+  color:var(--burntorange);
+  font-weight:bold;
+}
+
+/* Footer */
+footer {
+  padding:0.5px;
+  color:#777777;
+  background-color:var(--darkgrey);
+  text-align: right;
+  font-size: 0.8em;
+}
+
+footer > p {
+    margin : 0.5em;
+    margin-right: 1em;
+}
+
+footer * {
+  color: #777777;
+}
+
+
+/* Media Queries */
+@media(max-width: 768px){
+  header #branding,
+  header nav,
+  header nav li,
+  article#main-col,
+  aside#sidebar{
+    float:none;
+    text-align:center;
+    width:100%;
+  }
+
+  header {
+    padding-bottom:20px;
+  }
+
+  .quote button {
+    display:block;
+    width:100%;
+  }
+
+  .quote input, .quote textarea {
+    width:100%;
+    margin-bottom:5px;
+  }
 }

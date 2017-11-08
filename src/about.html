@@ -12,6 +12,229 @@
 </head>
 <body>
 <style>
+body {
+  //text-align: center;
+  //font-family: monaco, monospace;
+  //background: linear-gradient( rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5) ), url("./images/capamerica.jpg") 100%;
+  //background-size: cover;
+}
+
+#showcase {
+  min-height: 425px;
+  background: linear-gradient( rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5) ), url("./images/capamerica.jpg") no-repeat ;
+  text-align: center;
+  color: white;
+}
+
+#welcome_text {
+  font-family: "Courier", sans-serif;
+  margin-top: 100px;
+  font-size: 3.5em;
+  margin-bottom:10px;
+}
+
+#blurb1 {
+  font-size: 1.2em;
+}
+
+#blurb2 {
+  font-size: 1.6em;
+  color: var(--burntorange);
+}
+
+#mymaps_button_container {
+  padding: 3em;
+}
+
+#go_to_maps {
+  font-size: 2.2em;
+  font-weight: bold;
+}
+
+/* boxes */
+#samples{
+  margin-top:15px;
+  margin-bottom: 30px;
+}
+
+#samples .sample_box {
+  float:left;
+  width: 33%;
+  height: 450px;
+  padding:0px;
+  text-align: center;
+}
+
+#samples .sample_box h3 {
+  color:white;
+  font-family:  "Courier", Arial, sans-serif;
+  font-size: 1.5em;
+  text-align: center;
+}
+
+.map-thumbnail {
+  display: inline-block;
+  min-width: 100px;
+  min-height: 200px;
+  height: 100%;
+  width: 98%;
+}
+
+.map-thumbnail a {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+#img1 {
+  background: url(./images/bucky.jpg) 50% 50% no-repeat; /* 50% 50% centers image in div */
+}
+
+#img2 {
+  background: url(./images/blackwidow.PNG) 50% 50% no-repeat; /* 50% 50% centers image in div */
+}
+
+#img3 {
+  background: url(./images/capamerica.jpg) 50% 50% no-repeat;
+}
+
+figcaption {
+  color:white;
+  font-family: "Courier", sans-serif;
+  font-size: 18px;
+}
+
+aside#sidebar {
+  float:right;
+  width:30%;
+  margin-top:10px;
+}
+
+/*main-col */
+article#main-col {
+  float:left;
+  width: 65%;
+}
+
+.dark {
+  padding:15px;
+  background:#35424a;
+  color:white;
+  margin-top:10px;
+  margin-bottom:10px;
+}
+
+/*Services*/
+article#services-col {
+  float:left;
+  width: 65%;
+}
+
+ul#services li{
+  list-style: none;
+  padding:20px;
+  border: #cccccc solid 1px;
+  margin-bottom:5px;
+  background:#e6e6e6;
+}
+
+aside#services-sidebar {
+  float:right;
+  width:30%;
+  margin-top:10px;
+}
+
+aside#services-sidebar .quote input, aside#services-sidebar .quote textarea {
+  width:90%;
+  padding:5px;
+}
+
+#header-about a {
+  color:var(--burntorange);
+  font-weight:bold;
+}
+
+</style>
+
+<div class="main_wrap">
+
+<section id="main">
+  <div class="container">
+    <article id="main-col">
+      <h1 class="page-title">about</h1>
+        <p>MapExplorer provides a simple format in which to create a journey through a 2D world.
+        How you choose to use it is up to you. Will you create a visual world with many nooks and crannies to explore?
+        Will you use it to tell a story, like a DIY adventure novel? Will you use it to craft funny little comics
+        to share with your friends? Or will you come up with something entirely new and unexpected?</p>
+        <p class="dark">Check out the <a href="broken">Tutorial</a> or the <a href="broken">Sample Projects</a> to see how it works</p>
+    </article>
+
+    <aside id="sidebar">
+      <div class="dark">
+        <h3>What we do</h3>
+        <p>a;sldkjfa;sldfjasd fas;dlfjasd;l fkajsd;fl adfljas dflas dfas df</p>
+      </div>
+    </aside>
+  </div>
+</section>
+
+<section id="services-section">
+  <div class="container">
+    <article id="services-col">
+      <h1 class="page-title">Services</h1>
+      <ul id="services">
+        <li>
+        <h3>Website Design</h1>
+          <p>asdfashdfkhlakjsdhfsdf</p>
+        </li>
+        <li>
+        <h3>Website Maintenance</h1>
+          <p>asdfashdfkhlakjsdhfsdf</p>
+          <p>Pricing: $250/month</p>
+        </li>
+        <li>
+        <h3>Website Hosting</h1>
+          <p>asdfashdfkhlakjsdhfsdf</p>
+        </li>
+        </ul>
+    </article>
+    <aside id="services-sidebar">
+      <div class="dark">
+        <h3>Get a quote</h3>
+        <form class="quote">
+          <div>
+            <label>Name</label><br>
+            <input type="text" placeholder="Name">
+          </div>
+          <div>
+            <label>Email</label><br>
+            <input type="email" placeholder="Email Address">
+          </div>
+          <div>
+            <label>Message</label><br>
+            <textarea placeholder="Message"></textarea>
+          </div>
+          <button class="button" type="submit">Send</button>
+        </form>
+      </div>
+    </aside>
+  </div>
+</section>
+
+
+</div>
+
+</body>
+</html>
+
+
+
+
+
+
+
+<!--
+<style>
 
 #maindiv {
   margin-top: 4em;
@@ -62,3 +285,5 @@ You may chose to make your maps public at any time, but we will never make anyth
 
 </body>
 </html>
+
+-->

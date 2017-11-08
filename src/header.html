@@ -1,61 +1,4 @@
 <!-- Generic header element for all pages-->
-<head>
-  <link rel="stylesheet" type="text/css" href="styles.css">
-</head>
-<style>
-
-/* Header */
-header {
-  background-color: #191919;
-  color: #ffffff;
-  padding-top: 20px;
-  min-height: 40px;
-  border-bottom: var(--burntorange) 3px solid;
-}
-
-header a {
-  color: #ffffff;
-  text-decoration: none;
-  font-size: 18px;
-}
-
-header li {
-  float:left;
-  display:inline;
-  padding: 0 20px 0 20px;
-}
-
-header #branding{
-  float:left;
-  margin-top:-12px;
-}
-
-header #branding a {
-  font-family: "Courier";
-  font-size: 0.8em;
-}
-
-header #branding h1 {
-  margin:0;
-}
-
-header nav {
-  float:right;
-  margin-top:0px;
-}
-
-header .highlight, header .current a {
-  color:var(--burntorange);
-  font-weight:bold;
-}
-
-header a:hover{
-  color:var(--burntorange);
-  font-weight:bold;
-}
-
-</style>
-
 <header id="myheader">
   <div class="container">
     <div id="branding">
@@ -63,8 +6,9 @@ header a:hover{
     </div>
     <nav>
         <ul>
-          <li class="current"> <a href="./index.html">Home</a></li>
-          <li> <a href="./about.html">About</a></li>
+          <!--<li class="current"> <a href="./index.html">Home</a></li> -->
+          <li id="header-home"> <a href="./index.html">Home</a></li>
+          <li id="header-about"> <a href="./about.html">About</a></li>
           <li> <a onclick="clickedSignIn()" href="./">Sign In</a></li>
           <li> <a href="https://www.paypal.com/" target="_blank" id="donatelink">Donate</a></li>
         </ul>

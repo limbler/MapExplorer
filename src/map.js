@@ -6,33 +6,29 @@ $(function(){
   //initialize my image
   var img = new Image();
   img.onload = function() {
-    var svgcontainer = document.getElementById('svgimage');
-    var viewboxstr = "0 0 " + this.width + " " + this.height;
-
     // Resize the SVG image to fit
+    var viewboxstr = "0 0 " + this.width + " " + this.height;
     $('#svgimage').attr("viewBox", viewboxstr);
     $('#map_picture').attr("width", this.width);
     $('#map_picture').attr("height", this.height);
     $('#map_picture').attr("xlink:href", img.src);
 
-    // now shrink the container div to the svg size
-    //$('#map_active_area').attr("max_width", this.width);
-    //$('#map_active_area').attr("width", this.width);
-    //$('#map_active_area').attr("max-width", this.width);
-    //$('#map_tools').attr("max_width", this.width);
-    //$('#map_tools').attr("width", this.width);
-
-    //alert("mapelement width: " + $('#map_element').attr("width") + " height " + $('#map_element').attr("height"));
-
-
+    // Build a drawing area the same size as the image
+    $('#drawing-area-container').attr("viewBox", viewboxstr);
+    $('#drawing-area-container').attr("width", this.width);
+    $('#drawing-area-container').attr("height", this.height);
+    $('#drawing-area').attr("width", this.width);
+    $('#drawing-area').attr("height", this.height);
   }
+  //img.src = './images/worms.png';
   img.src = './images/bucky.jpg';
 });
 
 var creating_selection = false;
+
 var ready_to_save = false;
 // Grab our image to use as drawing board
-var draw = SVG.adopt(document.getElementById('svgimage'))
+var draw = SVG.adopt(document.getElementById('drawing-area-container'))
 var rect = null;	// initialize variable
 
 function clickedCreateSelection() {
@@ -59,6 +55,7 @@ function clickedCreateSelection() {
 }
 
 draw.on('mousedown', function(event){
+
     if (!creating_selection) {
       return;
     }
