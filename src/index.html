@@ -107,12 +107,9 @@
 }
 
 /* Tablet settings */
-@media(max-width: 768px){
+@media (min-width : 568px) and (max-width: 768px){
   #go_to_maps {
     font-size: 1.5em;
-  }
-  #showcase h1 {
-    margin-top:40px;
   }
 
   #showcase#mymaps_button_container {
@@ -130,6 +127,42 @@
     text-align:center;
     width:100%;
     margin-top:20px;
+  }
+}
+
+/* Small phone settings */
+@media (max-width : 568px) {
+
+  #showcase {
+    min-height: 300px;
+  }
+
+  #showcase #welcome_text {
+    font-family: "Courier", sans-serif;
+    margin-top: 80px;
+    font-size: 3em;
+    margin-bottom:20px;
+  }
+
+  #showcase #go_to_maps {
+    font-size: 1.8em;
+    color:white;
+  }
+
+  #showcase #blurb1, #showcase #blurb2 {
+    display:none;
+  }
+
+  #samples{
+    margin-top:20px;
+    margin-bottom: 30px;
+  }
+
+  #samples .sample_box{
+    float:none;
+    text-align:center;
+    width:100%;
+    margin-top:15px;
   }
 }
 

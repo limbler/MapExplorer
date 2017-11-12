@@ -55,6 +55,10 @@ ul {
   cursor: pointer;
 }
 
+.button:hover {
+    color: var(--burntorange);
+}
+
 .invisible {
   opacity: 0;
 }
@@ -86,6 +90,7 @@ rect.map_selection_highlight {
 .modalDialog {
 	position: fixed;
 	font-family: Arial, Helvetica, sans-serif;
+  color: black;
 	top: 0;
 	right: 0;
 	bottom: 0;
@@ -196,7 +201,7 @@ footer {
   padding:0.5px;
   color:#777777;
   background-color:var(--darkgrey);
-  text-align: right;
+  text-align: center;
   font-size: 0.8em;
 }
 

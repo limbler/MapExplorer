@@ -1,7 +1,7 @@
 function generateCustomDropzoneObject() {
   return {
     paramName: "file", // The name that will be used to transfer the file
-    maxFilesize: 0.5, // MB
+    maxFilesize: 25, // MB
     maxFiles: 1,
     addRemoveLinks: true,
     acceptedFiles: ".png,.jpg,.gif,.bmp,.jpeg",
@@ -14,7 +14,6 @@ function generateCustomDropzoneObject() {
       else { alert("uploaded file!"); done(); }
     },
     init:function(){
-      alert("Running!");
       var self = this;
       // config
       self.options.addRemoveLinks = true;
@@ -45,12 +44,4 @@ function generateCustomDropzoneObject() {
       });
     }
   };
-};
-
-function loadcustomdropzone() {
-  Dropzone.options.myAwesomeDropzone = generateCustomDropzoneObject();
-};
-
-function loadcustomdropzone2() {
-  Dropzone.options.myAwesomeDropzone2 = generateCustomDropzoneObject();
 };

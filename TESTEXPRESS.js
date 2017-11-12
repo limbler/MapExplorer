@@ -1,9 +1,15 @@
 const express = require('express');
 const app = express();
-const fileUpload = require('express-fileupload');;
+const fileUpload = require('express-fileupload');
+const bodyParser = require('body-parser');
 
 app.use(express.static(__dirname + '/src'));
 app.use("/src", express.static(__dirname + '/src'));
+
+app.use(bodyParser.urlencoded({extended:true}));
+app.use (bodyParser.json());
+//app.use(express.json());
+//app.use(express.urlencoded());
 
 //app.get('/', function (req, res) {
 //  res.sendFile('C:/Users/Laura/Code/MapExplorer/src/index.html');
@@ -18,7 +24,7 @@ app.get('/inputFile', function(req, res){
 app.post('/upload-file', function(req, res) {
   // The name of the input field (i.e. "sampleFile") is used to retrieve the uploaded file
    //var startup_image = req.files.foo;
-   var fileName = req.body.file;
+   var fileName = req.body;
      console.log('Uploading file ' + fileName + '!');
    // Use the mv() method to place the file somewhere on your server
    //startup_image.mv(__dirname + '/images/' + fileName + '.jpgTEST' , function(err) {

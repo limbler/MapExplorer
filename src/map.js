@@ -1,8 +1,11 @@
 'use strict';
 
-$(function(){
-  loadcustomdropzone();
+//initialize dropzone
+//Don't know why I have to do this outside of onReady...
+Dropzone.autoDiscover = true;
+Dropzone.options.mapDropzone = generateCustomDropzoneObject();
 
+$(function(){
   //initialize my image
   var img = new Image();
   img.onload = function() {
@@ -37,24 +40,36 @@ function clickedCreateSelection() {
     setButtonToCreating();
     ready_to_save = false;
   }
-  else {
-    // if there's a selection in progress, kill it
-    if (rect && !ready_to_save) {
-        rect.remove();
-    }
-    rect = null;
-
-    // otherwise that rectangle is already nicely saved in teh SVG element.
-    // pop up a modal dialog for adding a file
-    document.getElementById("hiddenModalLink").click();
-    //document.getElementById('mapModal').style.opacity = "1";
-    //document.getElementById('mapModal').style.pointerEvents = "auto";
+  else if (!rect) {
+    // if they haven't started making a selection yet, cancel it
     creating_selection = false;
     setButtonToDefaults();
   }
+  else {
+    setToDefaults();
+    // pop up a modal dialog for adding a file
+    document.getElementById("hiddenModalLink").click();
+  }
+}
+
+function cancelSaveSelection(evt) {
+  setToDefaults();
+
+  //TODO: CLEAR THE RECTANGLE THAT MIGHT HAVE JUST GOTTEN CREATED
+}
+
+function setToDefaults() {
+  // if there's a selection in progress, kill it
+  if (rect && !ready_to_save) {
+      rect.remove();
+  }
+  rect = null;
+  creating_selection = false;
+  setButtonToDefaults();
 }
 
 draw.on('mousedown', function(event){
+  Dropzone.options.myAwesomeDropzone = generateCustomDropzoneObject();
 
     if (!creating_selection) {
       return;
@@ -98,23 +113,25 @@ function clickedRectangle(evt) {
   var dim = e.getBoundingClientRect();
   var x = evt.clientX - dim.left;
   var y = evt.clientY - dim.top;
-  //alert("clicked rectangle! x: "+x+" y:"+y);
 }
 
 function setButtonToCreating() {
   document.getElementById('create_selection_button').style.background="#222222";
   document.getElementById('create_selection_button').value = "Creating Selection";
   document.getElementById('create_selection_button').style.boxShadow = "0 0 15px #cc6533";
+  document.getElementById('cancel_selection_button').style.display= "none";
 }
 
 function setButtonToSave() {
   document.getElementById('create_selection_button').style.background="#cc6533";
   document.getElementById('create_selection_button').value = "Save Selection";
   document.getElementById('create_selection_button').style.boxShadow = "0 0 15px #cc6533";
+  document.getElementById('cancel_selection_button').style.display= "block";
 }
 
 function setButtonToDefaults() {
   document.getElementById('create_selection_button').style.background="#222222";
   document.getElementById('create_selection_button').value = "Create Selection";
   document.getElementById('create_selection_button').style.boxShadow = "none";
+  document.getElementById('cancel_selection_button').style.display= "none";
 }
