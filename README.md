@@ -1,2 +1,4 @@
-# pluralsight-js-dev-env
-For "Building A Javascript Development Environment" Pluralsight course
+# MapExplorer
+Connect a series of images to craft a journey or tell a story
+
+Only tested in Chrome

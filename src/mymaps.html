@@ -130,8 +130,11 @@ figcaption {
       		<a href="#close" title="Close" class="close">X</a>
       		<h2>Create a Starting Point</h2>
       		<p>Select the starting image for your new map. Don't worry, you can always change it later! (when I actually implement that feature, that is)</p>
-            <form action="/upload-file" method="post"
-               class="dropzone" id="mymaps-dropzone">
+            <form action="/uploadfile" method="post"
+               class="dropzone custom_dropzone" id="mymaps-dropzone">
+              <div class="fallback">
+                <input name="file" type="file" />
+              </div>
           </form>
 
         </div>

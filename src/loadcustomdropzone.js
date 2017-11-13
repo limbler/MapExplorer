@@ -1,23 +1,37 @@
 function generateCustomDropzoneObject() {
   return {
-    paramName: "file", // The name that will be used to transfer the file
-    maxFilesize: 25, // MB
+    paramName: 'file', // The name that will be used to transfer the file
+    maxFilesize: 2, // MB
     maxFiles: 1,
     addRemoveLinks: true,
     acceptedFiles: ".png,.jpg,.gif,.bmp,.jpeg",
-    dictDefaultMessage: "Drop files here (or click here) to upload",
+    dictDefaultMessage: "Drop files here (or click) to upload",
     dictResponseError: 'Server not Configured',
     accept: function(file, done) {
+      file.acceptDimensions = done;
+      file.rejectDimensions = function() {
+        done('Image must be at least 300 by 300 pixels in size');
+      };
+
       if (file.name == "justinbieber.jpg") {
         done("Naha, you don't.");
       }
-      else { alert("uploaded file!"); done(); }
+      else { console.log("uploaded file!"); done(); }
     },
     init:function(){
       var self = this;
       // config
       self.options.addRemoveLinks = true;
       self.options.dictRemoveFile = "Delete";
+      //check dimensions
+      this.on('thumbnail', function(file) {
+        if (file.width < 300 || file.height < 300) {
+          file.rejectDimensions();
+        }
+        else {
+          file.acceptDimensions();
+        }
+      });
       //New file added
       self.on("addedfile", function (file) {
         console.log('new file added ', file);
@@ -41,6 +55,13 @@ function generateCustomDropzoneObject() {
       // On removing file
       self.on("removedfile", function (file) {
         console.log(file);
+        $.ajax({
+          url: '/uploaded/files/' + file.name,
+          type: 'DELETE',
+          success: function(result) {
+            console.log(result);
+          }
+        });
       });
     }
   };

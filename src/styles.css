@@ -143,7 +143,8 @@ rect.map_selection_highlight {
 .close:hover { background: var(--burntorange); }
 
 .custom_dropzone {
-  background: linear-gradient( rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5) ) 100%;
+  //background: linear-gradient( rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5) ) 100%;
+
 }
 
 /* Header */

@@ -187,9 +187,11 @@
         <a href="#close" title="Close" class="close">X</a>
         <h2>What's Next?</h2>
         <p>Where does this selection lead to?</p>
-        <form action="/upload-file" method="post"
+        <form action="/uploadfile" method="post"
           class="dropzone custom_dropzone" id="map-dropzone">
-          <!-- TODO: Add fallback -->
+          <div class="fallback">
+            <input name="file" type="file" />
+          </div>
         </form>
       </div>
     </div>
