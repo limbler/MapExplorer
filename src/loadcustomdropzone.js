@@ -7,6 +7,8 @@ function generateCustomDropzoneObject() {
     acceptedFiles: ".png,.jpg,.gif,.bmp,.jpeg",
     dictDefaultMessage: "Drop files here (or click) to upload",
     dictResponseError: 'Server not Configured',
+    autoProcessQueue: false,
+
     accept: function(file, done) {
       file.acceptDimensions = done;
       file.rejectDimensions = function() {
@@ -16,9 +18,14 @@ function generateCustomDropzoneObject() {
       if (file.name == "justinbieber.jpg") {
         done("Naha, you don't.");
       }
-      else { console.log("uploaded file!"); done(); }
+      else {
+        console.log("uploaded file!");
+        done();
+      }
     },
     init:function(){
+      resetAcceptButton();
+
       var self = this;
       // config
       self.options.addRemoveLinks = true;
@@ -29,11 +36,25 @@ function generateCustomDropzoneObject() {
           file.rejectDimensions();
         }
         else {
-          file.acceptDimensions();
+          //file.acceptDimensions();
         }
       });
       //New file added
       self.on("addedfile", function (file) {
+        // remove existing file
+        if (this.files.length) {
+            var i, len;
+            for (i = 0, len = this.files.length; i < len - 1; i++) // -1 to exclude current file
+            {
+                this.removeFile(this.files[i]);
+            }
+        }
+        activateAcceptButton();
+        var dropzone = this;
+        $("#accept_upload_button").click(function() {
+          dropzone.processQueue();
+        });
+
         console.log('new file added ', file);
       });
       // Send file starts
@@ -41,27 +62,45 @@ function generateCustomDropzoneObject() {
         console.log('upload started', file);
         $('.meter').show();
       });
-
       // File upload Progress
       self.on("totaluploadprogress", function (progress) {
         console.log("progress ", progress);
         $('.roller').width(progress + '%');
       });
-
       self.on("queuecomplete", function (progress) {
         $('.meter').delay(999).slideUp(999);
       });
+      // File successfully uploaded
+      self.on("success", function(file, responseText) {
+        console.log("Successfully uploaded file " + file + "!!");
+        resetAcceptButton();
+        // Give a short timeout for user experience.
+        // have to make the 'removefile' timeout a little longer
+        // to accound for the modal fadeout
+        setTimeout(function() {closeModal();}, 1200);
+        var dropzone = this;
+        setTimeout(function() {
+          dropzone.removeFile(file);
+        }, 2000, file);
 
+      });
+      // File was rejected/failed
+      self.on("error", function (file) {
+        console.log("Error with file " + file);
+        resetAcceptButton();
+      });
       // On removing file
       self.on("removedfile", function (file) {
-        console.log(file);
-        $.ajax({
-          url: '/uploaded/files/' + file.name,
-          type: 'DELETE',
-          success: function(result) {
-            console.log(result);
-          }
-        });
+        console.log("removing file " + file + " from dropzone");
+        resetAcceptButton();
+        // console.log(file);
+        // $.ajax({
+        //   url: '/uploaded/files/' + file.name,
+        //   type: 'DELETE',
+        //   success: function(result) {
+        //     console.log(result);
+        //   }
+        // });
       });
     }
   };

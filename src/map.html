@@ -17,14 +17,13 @@
 
 #map_title {
   font-family: "Courier", sans-serif;
-  font-size: 2em;
+  font-size: 1.6em;
   color: white;
   margin-top: 0;
 }
 
 #map_active_area {
   display:inline-block;
-  //background-color: var(--darkgrey);
   width: 100%;
   max-width: 1000px;
 }
@@ -64,6 +63,26 @@
 #map_tools * {
   box-sizing: border-box;
 }
+
+button.unselected {
+  border-color: #999999;
+  background-color: #555555;
+  color: #999999;
+  box-shadow: none;
+}
+
+button.activated {
+  background-color: var(--burntorange);
+  box-shadow: 0 0 15px var(--burntorange);
+  color: white;
+}
+button.activated:hover { color: white; }
+
+
+.unselected:hover {
+    color: #999999;
+}
+
 
 .tool-row::after {
   content: "";
@@ -138,7 +157,7 @@
 
 <div class="main_wrap">
 
-<h1 id="map_title">Map 1</h1>
+<h1 id="map_title"></h1>
 
 <section id="map_active_area">
   <div class="container map-container">
@@ -184,15 +203,17 @@
     <a hidden href="#mapModal" id="hiddenModalLink" ></a>
     <div id="mapModal" class="modalDialog">
       <div >
-        <a href="#close" title="Close" class="close">X</a>
+        <a href="#close" title="Close" class="close" onclick="canceledUpload()">X</a>
         <h2>What's Next?</h2>
         <p>Where does this selection lead to?</p>
         <form action="/uploadfile" method="post"
           class="dropzone custom_dropzone" id="map-dropzone">
+          <input type="hidden" name="additionaldata" value="1" />
           <div class="fallback">
             <input name="file" type="file" />
           </div>
         </form>
+        <button id="accept_upload_button" class="button" >accept</button>
       </div>
     </div>
   </div>
