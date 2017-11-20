@@ -44,6 +44,9 @@ span.highlight {
   min-height: calc(100% - 9em);
 }
 
+.invisible {
+  opacity: 0;
+}
 
 .button {
   font-family: "Arial";
@@ -60,9 +63,31 @@ span.highlight {
     color: var(--burntorange);
 }
 
-.invisible {
-  opacity: 0;
+button.conditionalButton {
+  font-family: "Arial";
+  text-decoration: none;
+  padding: .2em 0.8em 0.2em 0.8em;
+  border-width: 2px;
+  border-style: solid;
+  border-radius: 30px;
+  cursor: pointer;
+  outline: none;
 }
+
+button.unselected {
+  border-color: #999999;
+  background-color: #999999;
+  color: white;
+  box-shadow: none;
+}
+button.unselected:hover { color: white; }
+
+button.activated {
+  background-color: var(--burntorange);
+  box-shadow: 0 0 15px var(--burntorange);
+  color: white;
+}
+button.activated:hover { color: white; }
 
 rect.map_selection {
   fill: #fdf339;

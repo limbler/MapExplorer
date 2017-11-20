@@ -74,6 +74,18 @@ figcaption {
   font-size: 12;
 }
 
+#mapname_input {
+  width: 100%;
+  font-family: "Courier";
+  font-size: 1.4em;
+  font-weight: bold;
+  padding: 12px 20px;
+  margin: 8px 0;
+  box-sizing: border-box;
+  border-radius: 6px;
+  text-align: center;
+}
+
 @media(max-width: 768px){
 
   #header_text {
@@ -118,31 +130,37 @@ figcaption {
 
     <!-- New Map creator (hardcoded)-->
     <figure class="map-thumbnail" id="add_new_map">
-      <a href="#openModal" >
+      <a href="#mymapsModal" >
         <img src="./images/add_map_icon.png" class="map-thumbnail-img">
       </a>
       <div class="caption-container">
         <figcaption>Create New Map</figcaption>
       </div>
-
-      <!-- Modal for uploading new map images-->
-      <div id="openModal" class="modalDialog">
-      	<div >
-      		<a href="#close" title="Close" class="close">X</a>
-      		<h2>Create a Starting Point</h2>
-      		<p>Select the starting image for your new map. Don't worry, you can always change it later! (when I actually implement that feature, that is)</p>
-            <form action="/uploadfile" method="post"
-               class="dropzone custom_dropzone" id="mymaps-dropzone">
-              <div class="fallback">
-                <input name="file" type="file" />
-              </div>
-          </form>
-        </div>
-      </div>
-
     </figure>
+
   </div>
 </section>
+
+<!-- Modal for uploading new map images-->
+<div class="container">
+  <div id="mymapsModal" class="modalDialog">
+    <div>
+      <a href="#close" title="Close" class="close" >X</a>
+      <h2>Create a Starting Point</h2>
+      <p>Select the starting image for your new map. Don't worry, you can always change it later! (when I actually implement that feature, that is)</p>
+      <h3 style="margin-bottom: 0px">Map Title:</h3><input id="mapname_input" type="text" name="maptitle" placeholder="title...">
+      <form action="/newmap" method="post"
+        class="dropzone custom_dropzone" id="newmap-dropzone">
+        <input type="hidden" name="additionaldata" value="1" />
+        <div class="fallback">
+          <input name="file" type="file" />
+        </div>
+      </form>
+      <br/>
+      <button id="accept_upload_button" class="conditionalButton">accept</button>
+    </div>
+  </div>
+</div>
 
 </div>
 

@@ -14,14 +14,8 @@ function generateCustomDropzoneObject() {
       file.rejectDimensions = function() {
         done('Image must be at least 300 by 300 pixels in size');
       };
-
-      if (file.name == "justinbieber.jpg") {
-        done("Naha, you don't.");
-      }
-      else {
-        console.log("uploaded file!");
-        done();
-      }
+      console.log("uploaded file!");
+      done();
     },
     init:function(){
       resetAcceptButton();
@@ -51,14 +45,19 @@ function generateCustomDropzoneObject() {
         }
         activateAcceptButton();
         var dropzone = this;
-        $("#accept_upload_button").click(function() {
-          dropzone.processQueue();
+        $(".conditionalButton").click(function() {
+          // dropzone users must define this themselves
+           if (!validateUpload())
+            return;
+           dropzone.processQueue();
         });
 
         console.log('new file added ', file);
       });
       // Send file starts
-      self.on("sending", function (file) {
+      self.on("sending", function (file, xhr, formData) {
+        // dropzone users must define this themselves
+        appendUploadData(formData);
         console.log('upload started', file);
         $('.meter').show();
       });

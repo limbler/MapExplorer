@@ -6,6 +6,8 @@ Dropzone.options.mapDropzone = generateCustomDropzoneObject();
 
 //Here we will keep a copy of all map data
 var mapDataStore = {};
+var currentNode;
+var newSelectionJson = '';
 
 // Initialize the page with the starting map image
 $(function(){
@@ -26,6 +28,7 @@ $(function(){
     if (this.readyState == 4 && this.status == 200) {
       var obj = JSON.parse(this.responseText);
       loadFromDataStore(obj, obj.mapdata.firstNodeId);
+      alert(this.responseText);
       mapDataStore = JSON.parse(this.responseText);
 
     }
@@ -48,6 +51,7 @@ function clickedCreateSelection() {
     creating_selection = true;
     setButtonToCreating();
     ready_to_save = false;
+    newSelectionJson = '';
   }
   else if (!rect) {
     // if they haven't started making a selection yet, cancel it
@@ -58,6 +62,13 @@ function clickedCreateSelection() {
     // The rectangle is ready for saving
     // pop up a modal dialog for adding a file
     document.getElementById("hiddenModalLink").click();
+    // build new rectangle string for saving
+    var x = rect.attr("x");
+    var y = rect.attr("y");
+    var height = rect.attr("height");
+    var width = rect.attr("width");
+
+    newSelectionJson = "{ \"x\":\"" + x + "\", \"y\":\"" + y + "\", \"height\":\"" + height + "\", \"width\":\"" + width + "\"}";
     setToDefaults();
   }
 }
@@ -66,6 +77,7 @@ function clickedCreateSelection() {
 function canceledUpload(evt) {
   // Remove the selection that was just created
   var container = document.getElementById('drawing-area-container')
+  newSelectionJson = '';
   container.removeChild(container.lastChild);
 }
 
@@ -157,6 +169,8 @@ function loadFromDataStore(dataStore, nodeId) {
     srect.setAttribute("targetId", selection.targetId);
     document.getElementById('drawing-area-container').appendChild(srect);
   })
+
+  currentNode = myNode.id;
 }
 
 
@@ -224,13 +238,13 @@ function createSelectionRectangle(x,y,height,width) {
 }
 
 function resetAcceptButton() {
-  var acceptButton = document.getElementById("accept_upload_button")
+  var acceptButton = document.getElementById("accept_upload_button");
   acceptButton.classList.remove("activated");
   acceptButton.classList.add("unselected");
   $("#accept_upload_button").prop('onclick',null).off('click');
 };
 function activateAcceptButton() {
-  var acceptButton = document.getElementById("accept_upload_button")
+  var acceptButton = document.getElementById("accept_upload_button");
   acceptButton.classList.remove("unselected");
   acceptButton.classList.add("activated");
   // have to set the button activatio in the dropzone itself
@@ -244,4 +258,15 @@ function getUploadInfo() {
 
 function closeModal() {
   window.location.hash='';
+}
+
+function validateUpload() {
+  // just fulfilling an interface here
+  return true;
+}
+
+function appendUploadData(formData) {
+  formData.append('currentNode', currentNode);
+  formData.append('currentMap', mapDataStore.mapdata.mapName);
+  formData.append('selection', newSelectionJson);
 }

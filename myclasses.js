@@ -23,8 +23,8 @@ class MapData {
 
 class MapNode {
   // nodes start with no selections
-  constructor(imageId, parentNodeId) {
-    this.id = tools.uuidv4();
+  constructor(nodeId, imageId, parentNodeId) {
+    this.id = nodeId;
     this.imageId = imageId;
     this.parentNodeId = parentNodeId;
     this.selections = [];

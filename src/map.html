@@ -64,26 +64,6 @@
   box-sizing: border-box;
 }
 
-button.unselected {
-  border-color: #999999;
-  background-color: #555555;
-  color: #999999;
-  box-shadow: none;
-}
-
-button.activated {
-  background-color: var(--burntorange);
-  box-shadow: 0 0 15px var(--burntorange);
-  color: white;
-}
-button.activated:hover { color: white; }
-
-
-.unselected:hover {
-    color: #999999;
-}
-
-
 .tool-row::after {
   content: "";
   clear: both;
@@ -213,7 +193,7 @@ button.activated:hover { color: white; }
             <input name="file" type="file" />
           </div>
         </form>
-        <button id="accept_upload_button" class="button" >accept</button>
+        <button id="accept_upload_button" class="conditionalButton">accept</button>
       </div>
     </div>
   </div>

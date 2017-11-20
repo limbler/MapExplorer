@@ -1,7 +1,9 @@
 'use strict';
 
+// Dropzone.autoDiscover = true;
+// Dropzone.options.mymapsDropzone = generateCustomDropzoneObject();
 Dropzone.autoDiscover = true;
-Dropzone.options.mymapsDropzone = generateCustomDropzoneObject();
+Dropzone.options.newmapDropzone = generateCustomDropzoneObject();
 
 $(function(){
   // Make GET request for the list of maps
@@ -37,3 +39,31 @@ $(function(){
   xhttp.send();
 
 });
+
+function resetAcceptButton() {
+  var acceptButton = document.getElementById("accept_upload_button");
+  acceptButton.classList.remove("activated");
+  acceptButton.classList.add("unselected");
+  $("#accept_upload_button").prop('onclick',null).off('click');
+};
+function activateAcceptButton() {
+  var acceptButton = document.getElementById("accept_upload_button");
+  acceptButton.classList.remove("unselected");
+  acceptButton.classList.add("activated");
+  // have to set the button activatio in the dropzone itself
+};
+
+function closeModal() {
+  window.location.hash='';
+}
+
+function validateUpload() {
+  if(!$('#mapname_input').val()) {
+    alert("You forgot the title!");
+    return false;
+  }
+  return true;
+}
+function appendUploadData(formData) {
+  formData.append('mapTitle', $('#mapname_input').val());
+}
