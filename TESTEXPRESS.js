@@ -66,6 +66,7 @@ const upload = multer( { storage:storage});
 app.post('/uploadfile', upload.single( 'file' ), function( req, res, next ) {
   console.log("req.body.userName = " + req.body.userName);
 
+   // input validation
    if ( !req.file.mimetype.startsWith( 'image/' ) ) {
      return res.status( 422 ).json( {
        error : 'The uploaded file must be an image'
@@ -94,7 +95,7 @@ app.post('/uploadfile', upload.single( 'file' ), function( req, res, next ) {
    }
 
 
-   // pull extra datafile  // pull map title
+   // pull auxiliary info
   console.log("filename: " + req.file.filename + "  originalname: " + req.file.originalname);
   console.log("req.body.currentNode = " + req.body.currentNode);
   console.log("req.body.currentMap = " + req.body.currentMap);
@@ -144,4 +145,64 @@ app.post('/newmap', upload.single( 'file' ), function( req, res, next ) {
 
 app.listen(3000, function () {
   console.log('Example app listening on port 3000!')
+})
+
+////////  DELETES    /////////////////////////
+app.delete('/selection', function( req, res) {
+  console.log("delete: req.query: " + JSON.stringify(req.query));
+  var mapName = req.query.mapname;
+  var targetNode = req.query.targetid;
+  var currentNode = req.query.currentid;
+
+  console.log("Received request to delete node" + targetNode + " from " + mapName);
+  var mymap = dataStore.maps.filter(function (entry) {
+    return entry.mapdata.mapName === req.query.mapname;
+  })[0];
+  if (!mymap) {
+      return res.status( 500 ).send("Could not find map " + mapName);
+  }
+
+  // delete the corresponding selection from the current node
+  var mycurrentnode = mymap.nodes.filter(function (entry) {
+    return entry.id === currentNode;
+  })[0];
+  if (!mycurrentnode) {
+      return res.status( 500 ).send("Could not find current node " + currentNode);
+  }
+  var myselection = mycurrentnode.selections.filter(function (entry) {
+    return entry.targetId === targetNode;
+  })[0];
+  if (!myselection) {
+    return res.status( 500 ).send("Could not find selection");
+  }
+  var index = mycurrentnode.selections.indexOf(myselection);
+  if (index > -1) {
+    mycurrentnode.selections.splice(index, 1);
+  }
+
+  // delete the target node itself, and any descendent nodes.
+  // kinda gotta search recursively, since each node only
+  // has info on the parent nodes
+  var mytargetnode = mymap.nodes.filter(function (entry) {
+    return entry.id === targetNode;
+  })[0];
+  var index = mymap.nodes.indexOf(mytargetnode);
+  if (index > -1) {
+    mymap.nodes.splice(index, 1);
+  }
+  if (!mytargetnode) {
+      return res.status( 500 ).send("Could not find target node " + mytargetnode);
+  }
+
+  var myparentnode = targetNode;
+
+//Yeesh this will be hard. Lets leave this as a todo....
+//TODO: Delete all descendent nodes
+// May ultimately want to rethink my data formats
+  //var mychildnodes = mymap.nodes.filter(function (entry) {
+  //  return entry.parentNodeId === myparentnode;
+  //}[0]);
+  //TODO: consider deleting the image files associated with deleted nodes
+
+  return res.status( 200 ).send(targetNode);
 })

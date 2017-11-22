@@ -136,16 +136,84 @@ draw.on('mousedown', function(event){
 
 ////////// Handle Image Changes /////////////////
 
+var editmode = false;
+
+function turnEditModeOn() {
+  editmode = true;
+  // darken picture slightly
+  $('#drawing-area').css("opacity", "0.4");
+    // All rectangles go to highlight mode/turn red on hover
+  var rects = document.getElementsByClassName('map_selection');
+  Array.prototype.forEach.call(rects,function(element) {
+    element.classList.add("delete_selection");
+  });
+
+  var buttons = document.getElementsByClassName('button');
+  Array.prototype.forEach.call(buttons,function(element) {
+    element.classList.add("disabled-button");
+  });
+  // Add white text "Click Selection to Delete"
+
+}
+
+function turnEditModeOff() {
+  editmode = false;
+
+  var rects = document.getElementsByClassName('map_selection');
+  $('#drawing-area').css("opacity", "");
+  Array.prototype.forEach.call(rects,function(element) {
+    element.classList.remove("delete_selection");
+  });
+
+  var buttons = document.getElementsByClassName('button');
+  Array.prototype.forEach.call(buttons,function(element) {
+    element.classList.remove("disabled-button");
+  });
+}
+
+function clickedEdit() {
+  if (editmode) { turnEditModeOff(); }
+  else          { turnEditModeOn(); }
+}
+
 function clickedRectangle(evt) {
   var targetId = evt.target.getAttribute("targetId");
   if (!targetId) {
+    alert ("Selection had no target Id");
     return;
   }
+
+  // if EditMode, delete the rectangle
+  if (editmode) {
+    // ask user to verify delete
+    if (!verifyDelete()) {
+      return;
+    }
+
+    // send ajax request to get rid of rectangle
+    // Make a query to the server to get the first node of that map
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function() {
+      if (this.readyState == 4 && this.status == 200) {
+        alert(this.responseText);
+      }
+    };
+    xhttp.open("DELETE", "selection"+"?"+"mapname="+ mapDataStore.mapdata.mapName + "&targetid=" + targetId+ "&currentid=" + currentNode, true);
+    xhttp.send();
+
+    // and delete it from here
+    //TODO: move this into the http response
+    evt.target.parentNode.removeChild(evt.target);
+    return;
+  }
+
   // Find the next node and load it
   loadFromDataStore(mapDataStore, targetId);
 }
 
 function loadFromDataStore(dataStore, nodeId) {
+  turnEditModeOff();
+
   var myNode = dataStore.nodes.filter(function (entry) { return entry.id === nodeId; })[0];
   if (!myNode) {
     alert("Error: Cant find node " + nodeId);
@@ -177,9 +245,9 @@ function loadFromDataStore(dataStore, nodeId) {
 ////////// PURE UTILITY FUNCTIONS /////////////////
 
 function clearRectangles() {
-  var paras = document.getElementsByClassName('map_selection');
-  while(paras[0]) {
-      paras[0].parentNode.removeChild(paras[0])
+  var rectangles = document.getElementsByClassName('map_selection');
+  while(rectangles[0]) {
+      rectangles[0].parentNode.removeChild(rectangles[0])
   }
 }
 
@@ -247,14 +315,8 @@ function activateAcceptButton() {
   var acceptButton = document.getElementById("accept_upload_button");
   acceptButton.classList.remove("unselected");
   acceptButton.classList.add("activated");
-  // have to set the button activatio in the dropzone itself
+  // have to set the button activation in the dropzone itself
 };
-
-function getUploadInfo() {
-  var obj = {};
-  obj.mapName = dataStore.mapdata.mapName;
-  return obj;
-}
 
 function closeModal() {
   window.location.hash='';
@@ -269,4 +331,12 @@ function appendUploadData(formData) {
   formData.append('currentNode', currentNode);
   formData.append('currentMap', mapDataStore.mapdata.mapName);
   formData.append('selection', newSelectionJson);
+}
+
+function verifyDelete() {
+  if (confirm('Are you sure you want to delete this selection?')) {
+    return true;
+  } else {
+    return false;
+  }
 }
