@@ -1,5 +1,7 @@
 'use strict';
 
+///////////// Initialization ///////////////////////
+
 //initialize dropzone
 Dropzone.autoDiscover = true;
 Dropzone.options.mapDropzone = generateCustomDropzoneObject();
@@ -7,7 +9,6 @@ Dropzone.options.mapDropzone = generateCustomDropzoneObject();
 //Here we will keep a copy of all map data
 var mapDataStore = {};
 var currentNode;
-var newSelectionJson = '';
 
 // Initialize the page with the starting map image
 $(function(){
@@ -28,7 +29,7 @@ $(function(){
     if (this.readyState == 4 && this.status == 200) {
       var obj = JSON.parse(this.responseText);
       loadFromDataStore(obj, obj.mapdata.firstNodeId);
-      alert(this.responseText);
+      //alert(this.responseText);
       mapDataStore = JSON.parse(this.responseText);
 
     }
@@ -38,29 +39,78 @@ $(function(){
 
 });
 
+///////// State handling //////////////////
+
+var edit_mode = false;
+var draw_mode = false;
+var ready_to_save = false;
+
+
+////////// User Interaction //////////////////
+
+function clickedEdit() {
+  if (draw_mode) { return; }
+  if (edit_mode)  { turn_edit_mode_off(); }
+  else           { turn_edit_mode_on(); }
+}
+
+function clickedCreateSelection() {
+  if (edit_mode) { return; }
+  handleCreateSelection();
+}
+
+function clickedRectangle(evt) {
+
+  if (draw_mode)
+    return;
+
+  var targetId = evt.target.getAttribute("targetId");
+  if (!targetId) {
+    alert ("Selection had no target Id");
+    return;
+  }
+  // if edit_mode, delete the selection
+  if (edit_mode) {
+    deleteSelection(evt.target);
+    return;
+  }
+  // Otherwise, find the next node and load it
+  loadFromDataStore(mapDataStore, targetId);
+}
+
+function clickedCancelSave(evt) {
+  cancelSaveSelection(evt);
+}
+
+function clickedCancelUpload(evt) {
+  cancelUpload(evt);
+}
+
 ///////// Draw new selections ///////////////////
 
-var creating_selection = false;
-var ready_to_save = false;
 // Grab our image to use as drawing board
 var draw = SVG.adopt(document.getElementById('drawing-area-container'))
 var rect = null;	// initialize variable
+var newSelectionJson = '';
 
-function clickedCreateSelection() {
-  if (!creating_selection) {
-    creating_selection = true;
+function handleCreateSelection() {
+  if (!draw_mode) {
+    // start creating the selection
+    draw_mode = true;
     setButtonToCreating();
     ready_to_save = false;
     newSelectionJson = '';
+    return;
   }
-  else if (!rect) {
+  if (!rect) {
     // if they haven't started making a selection yet, cancel it
-    creating_selection = false;
+    draw_mode = false;
     setButtonToDefaults();
+    return;
   }
-  else {
-    // The rectangle is ready for saving
-    // pop up a modal dialog for adding a file
+  // The rectangle is ready for saving
+  // pop up a modal dialog for adding a file
+  if (ready_to_save) {
     document.getElementById("hiddenModalLink").click();
     // build new rectangle string for saving
     var x = rect.attr("x");
@@ -73,33 +123,18 @@ function clickedCreateSelection() {
   }
 }
 
-//User cancels modal upload without uploading image
-function canceledUpload(evt) {
-  // Remove the selection that was just created
-  var container = document.getElementById('drawing-area-container')
-  newSelectionJson = '';
-  container.removeChild(container.lastChild);
-}
-
-function cancelSaveSelection(evt) {
-  //Kill the created rectangle and reset button
-  var container = document.getElementById('drawing-area-container')
-  container.removeChild(container.lastChild);
-  setToDefaults();
-}
-
 function setToDefaults() {
   // if there's a selection in progress, kill it
   if (rect && !ready_to_save) {
       rect.remove();
   }
   rect = null;
-  creating_selection = false;
+  draw_mode = false;
   setButtonToDefaults();
 }
 
 draw.on('mousedown', function(event){
-  if (!creating_selection) {
+  if (!draw_mode || edit_mode) {
     return;
   }
   // if an unsaved rectangle already exists, delete it
@@ -133,87 +168,20 @@ draw.on('mousedown', function(event){
   }
 });
 
+function cancelSaveSelection(evt) {
+  removeLastSelection();
+  setToDefaults();
+}
+
+//User cancels modal upload without uploading image
+function cancelUpload(evt) {
+  removeLastSelection();
+  newSelectionJson = '';
+}
 
 ////////// Handle Image Changes /////////////////
 
-var editmode = false;
-
-function turnEditModeOn() {
-  editmode = true;
-  // darken picture slightly
-  $('#drawing-area').css("opacity", "0.4");
-    // All rectangles go to highlight mode/turn red on hover
-  var rects = document.getElementsByClassName('map_selection');
-  Array.prototype.forEach.call(rects,function(element) {
-    element.classList.add("delete_selection");
-  });
-
-  var buttons = document.getElementsByClassName('button');
-  Array.prototype.forEach.call(buttons,function(element) {
-    element.classList.add("disabled-button");
-  });
-  // Add white text "Click Selection to Delete"
-
-}
-
-function turnEditModeOff() {
-  editmode = false;
-
-  var rects = document.getElementsByClassName('map_selection');
-  $('#drawing-area').css("opacity", "");
-  Array.prototype.forEach.call(rects,function(element) {
-    element.classList.remove("delete_selection");
-  });
-
-  var buttons = document.getElementsByClassName('button');
-  Array.prototype.forEach.call(buttons,function(element) {
-    element.classList.remove("disabled-button");
-  });
-}
-
-function clickedEdit() {
-  if (editmode) { turnEditModeOff(); }
-  else          { turnEditModeOn(); }
-}
-
-function clickedRectangle(evt) {
-  var targetId = evt.target.getAttribute("targetId");
-  if (!targetId) {
-    alert ("Selection had no target Id");
-    return;
-  }
-
-  // if EditMode, delete the rectangle
-  if (editmode) {
-    // ask user to verify delete
-    if (!verifyDelete()) {
-      return;
-    }
-
-    // send ajax request to get rid of rectangle
-    // Make a query to the server to get the first node of that map
-    var xhttp = new XMLHttpRequest();
-    xhttp.onreadystatechange = function() {
-      if (this.readyState == 4 && this.status == 200) {
-        alert(this.responseText);
-      }
-    };
-    xhttp.open("DELETE", "selection"+"?"+"mapname="+ mapDataStore.mapdata.mapName + "&targetid=" + targetId+ "&currentid=" + currentNode, true);
-    xhttp.send();
-
-    // and delete it from here
-    //TODO: move this into the http response
-    evt.target.parentNode.removeChild(evt.target);
-    return;
-  }
-
-  // Find the next node and load it
-  loadFromDataStore(mapDataStore, targetId);
-}
-
 function loadFromDataStore(dataStore, nodeId) {
-  turnEditModeOff();
-
   var myNode = dataStore.nodes.filter(function (entry) { return entry.id === nodeId; })[0];
   if (!myNode) {
     alert("Error: Cant find node " + nodeId);
@@ -224,11 +192,11 @@ function loadFromDataStore(dataStore, nodeId) {
   // Clear out any current selection objects
   clearRectangles();
 
-  // Load new image
+  // Load new image and render
   var img = initializeImageObject();
   img.src = myNode.imageId;
 
-  // Load up the selections
+  // Load up and render the selections
   myNode.selections.forEach(function(selection) {
     var srect = createSelectionRectangle( selection.rectangle.x,
                                           selection.rectangle.y,
@@ -241,8 +209,79 @@ function loadFromDataStore(dataStore, nodeId) {
   currentNode = myNode.id;
 }
 
+//////////////// Edit mode //////////////////////
+
+function turn_edit_mode_on() {
+  edit_mode = true;
+  // darken picture slightly
+  $('#drawing-area').css("opacity", "0.4");
+    // All rectangles go to highlight mode/turn red on hover
+  var rects = document.getElementsByClassName('map_selection');
+  Array.prototype.forEach.call(rects,function(element) {
+    element.classList.add("delete_selection");
+  });
+
+  // 'disable' other buttons
+  var buttons = document.getElementsByClassName('button');
+  Array.prototype.forEach.call(buttons,function(element) {
+    element.classList.add("disabled-button");
+  });
+
+  // highlight edit button
+  var editbutton = document.getElementById('edit_button');
+  editbutton.classList.add("attention");
+  editbutton.value = "Done";
+  // Add white text "Click Selection to Delete"
+}
+
+function turn_edit_mode_off() {
+  edit_mode = false;
+
+  var rects = document.getElementsByClassName('map_selection');
+  $('#drawing-area').css("opacity", "");
+  Array.prototype.forEach.call(rects,function(element) {
+    element.classList.remove("delete_selection");
+  });
+
+  var buttons = document.getElementsByClassName('button');
+  Array.prototype.forEach.call(buttons,function(element) {
+    element.classList.remove("disabled-button");
+  });
+
+  var editbutton = document.getElementById('edit_button');
+  editbutton.classList.remove("attention");
+  editbutton.value = "Edit...";
+}
+
+function deleteSelection(target) {
+  var targetId = target.getAttribute("targetId");
+
+  if (!verifyDelete()) {
+    return;
+  }
+
+  var xhttp = new XMLHttpRequest();
+  xhttp.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) {
+      alert(this.responseText);
+    }
+  };
+  xhttp.open("DELETE", "selection"+"?"+"mapname="+ mapDataStore.mapdata.mapName + "&targetid=" + targetId+ "&currentid=" + currentNode, true);
+  xhttp.send();
+
+  //TODO: move this into the http response
+  target.parentNode.removeChild(target);
+  return;
+}
+
 
 ////////// PURE UTILITY FUNCTIONS /////////////////
+
+function removeLastSelection() {
+  var container = document.getElementById('drawing-area-container')
+  if (container.lastChild.id != 'drawing-area')
+    container.removeChild(container.lastChild);
+}
 
 function clearRectangles() {
   var rectangles = document.getElementsByClassName('map_selection');
@@ -272,23 +311,22 @@ function initializeImageObject() {
 }
 
 function setButtonToCreating() {
-  document.getElementById('create_selection_button').style.background="#222222";
   document.getElementById('create_selection_button').value = "Creating Selection";
-  document.getElementById('create_selection_button').style.boxShadow = "0 0 15px #cc6533";
-  document.getElementById('cancel_selection_button').style.display= "none";
-}
-
-function setButtonToSave() {
-  document.getElementById('create_selection_button').style.background="#cc6533";
-  document.getElementById('create_selection_button').value = "Save Selection";
-  document.getElementById('create_selection_button').style.boxShadow = "0 0 15px #cc6533";
+  document.getElementById('create_selection_button').classList.remove("attention");
+  //mybutton.style.boxShadow = "0 0 15px #cc6533";
   document.getElementById('cancel_selection_button').style.display= "block";
 }
 
+function setButtonToSave() {
+  var mybutton = document.getElementById('create_selection_button');
+  mybutton.classList.add("attention");
+  mybutton.value = "Save Selection";
+}
+
 function setButtonToDefaults() {
-  document.getElementById('create_selection_button').style.background="#222222";
-  document.getElementById('create_selection_button').value = "Create Selection";
-  document.getElementById('create_selection_button').style.boxShadow = "none";
+  var mybutton = document.getElementById('create_selection_button');
+  mybutton.classList.remove("attention");
+  mybutton.value = "Create Selection";
   document.getElementById('cancel_selection_button').style.display= "none";
 }
 
@@ -323,7 +361,6 @@ function closeModal() {
 }
 
 function validateUpload() {
-  // just fulfilling an interface here
   return true;
 }
 

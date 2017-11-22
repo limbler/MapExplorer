@@ -62,6 +62,9 @@ span.highlight {
   border-radius: 30px;
   cursor: pointer;
 }
+.button:focus {
+  outline:0;
+}
 
 .button:hover {
     color: var(--burntorange);
@@ -93,6 +96,7 @@ button.unselected:hover { color: white; }
 
 button.activated {
   background-color: var(--burntorange);
+  border-color: var(--burntorange);
   box-shadow: 0 0 15px var(--burntorange);
   color: white;
 }
