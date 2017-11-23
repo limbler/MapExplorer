@@ -82,6 +82,8 @@ function generateCustomDropzoneObject() {
           dropzone.removeFile(file);
         }, 2000, file);
 
+        doneUploading();
+
       });
       // File was rejected/failed
       self.on("error", function (file) {

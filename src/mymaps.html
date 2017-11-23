@@ -9,22 +9,25 @@
     <meta name="author" content="Laura Imbler"/>
     <link rel="stylesheet" type="text/css" href="styles.css">
     <link rel="stylesheet" type="text/css" href="dropzonejs/dropzone.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="import" href="./header.html">
     <link rel="import" href="./footer.html">
   </head>
 <style>
 
 #header-mymaps a {
-  color:var(--burntorange);
+  color:var(--accent);
   font-weight:bold;
 }
 
 #header_text {
   clear:both;
   font-family: "Courier", sans-serif;
-  font-size: 60px;
+  font-size: 2.3em;
   color: white;
   text-align: center;
+  padding-bottom: 0;
+  margin-bottom: 0;
 }
 
 #map_panel {
@@ -35,21 +38,37 @@
   margin-bottom: 30px;
 }
 
+#edit_button {
+  float: right;
+  background:none!important;
+  color:var(--accent);
+  border:none;
+  padding: .2em 0.8em 0.2em 0.8em;
+  font: inherit;
+  cursor: pointer;
+}
+
+#edit_wrapper {
+  width: 90%;
+}
+
 .bordered-container {
-  border: 1px solid var(--burntorange);
-  box-shadow:  inset 0 0 15px #000000;
+  border: 1px solid var(--accent);
+  //box-shadow:  inset 0 0 15px #000000;
   border-radius: 30px;
   background: linear-gradient( rgba(0, 0, 0, 0.05), rgba(0, 0, 0, 0.05) );
   width: 95%;
 }
 
 .map-thumbnail {
+  position: relative;
   display: inline-block;
   float: left;
   margin-top: 0.5em;
   margin-bottom: 0.5em;
   margin-left: 10px;
   margin-right: 10px;
+
 }
 
 .map-thumbnail-img {
@@ -57,6 +76,7 @@
   border-radius: 8px;
   width:300px;
   height:300px;
+  box-shadow: 0 3px 10px var(--darkgrey);
 }
 
 .map-thumbnail-img:hover {
@@ -68,10 +88,37 @@
   transition: all 0.2s ease;
 }
 
+.map-thumbnail-img.edit_mode {
+  opacity: 0.8;
+  -webkit-filter: brightness(100%);
+}
+
 figcaption {
   color:white;
   font-family: sans-serif;
   font-size: 12;
+}
+
+.icon-container {
+  position: absolute;
+  z-index: 10;
+  left: 110px;
+  top: 110px;
+  width: 80px;
+  height: 80px;
+  border-radius: 45px;
+  font-size: 70px;
+  background: var(--disabled);
+  opacity: 0.9;
+  display: none;
+}
+
+.icon-container:hover {
+  background: var(--accent);
+}
+
+.icon-container.edit_mode {
+  display:inline;
 }
 
 #mapname_input {
@@ -91,7 +138,7 @@ figcaption {
   #header_text {
     padding-top: 0px;
     margin-top: 0px;
-    font-size: 50px;
+    font-size: 2em;
   }
 
   .map-thumbnail {
@@ -105,6 +152,11 @@ figcaption {
     width:400px;
     height:400px;
   }
+
+  .icon-container {
+    left: 50%;
+    top: 50%;
+  }
 }
 
 
@@ -112,9 +164,12 @@ figcaption {
 
 <div class="main_wrap">
 
-<h1 id="header_text">Pick A Map To Explore</h1>
+<h1 id="header_text">My Maps</h1>
 
 <section id="map_panel">
+  <div id="edit_wrapper" class="container">
+    <input type="button" id="edit_button" class="button" onclick="clickedEdit()" value="Edit..."></input>
+  </div>
   <div class="container bordered-container" id="app">
 
     <!-- Load in maps from server using Vue -->
@@ -122,6 +177,9 @@ figcaption {
       <a v-bind:href="'./map.html?mapname=' + map.mapdata.mapName" >
         <img v-bind:src="getImageFromNodeId(map.mapdata.mapName, map.mapdata.firstNodeId)" class="map-thumbnail-img">
       </a>
+      <div class="icon-container" v-on:click="clickedDeleteMap(map.mapdata.mapName)">
+        <i class="fa fa-trash"></i>
+      </div>
       <div class="caption-container">
         <figcaption>{{ map.mapdata.mapName }}</figcaption>
         <figcaption>Size: {{ getNumberTiles(map.mapdata.mapName) }} tiles</figcaption>

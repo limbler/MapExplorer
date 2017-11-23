@@ -48,6 +48,31 @@ var ready_to_save = false;
 
 ////////// User Interaction //////////////////
 
+function clickedGoBack() {
+  if (draw_mode) { return; }
+  if (edit_mode)  { turn_edit_mode_off(); }
+  // find parent node
+  var myNode = mapDataStore.nodes.filter(function (entry) {
+    return entry.id === currentNode;
+  })[0];
+  if (!myNode) {
+    alert("Error: Cant find current Node :(");
+    return;
+  }
+  var parentNode = myNode.parentNodeId;
+  if (parentNode) {
+    //load the parent node
+    loadFromDataStore(mapDataStore, parentNode);
+  }
+  else {
+    // if we're at the top, return to MyMaps
+    // this also works: window.location.replace("http://stackoverflow.com");
+    window.location.href = "./mymaps.html";
+    return;
+  }
+
+}
+
 function clickedEdit() {
   if (draw_mode) { return; }
   if (edit_mode)  { turn_edit_mode_off(); }
@@ -111,14 +136,15 @@ function handleCreateSelection() {
   // The rectangle is ready for saving
   // pop up a modal dialog for adding a file
   if (ready_to_save) {
-    document.getElementById("hiddenModalLink").click();
     // build new rectangle string for saving
     var x = rect.attr("x");
     var y = rect.attr("y");
     var height = rect.attr("height");
     var width = rect.attr("width");
-
     newSelectionJson = "{ \"x\":\"" + x + "\", \"y\":\"" + y + "\", \"height\":\"" + height + "\", \"width\":\"" + width + "\"}";
+
+    document.getElementById("hiddenModalLink").click();
+
     setToDefaults();
   }
 }
@@ -216,64 +242,52 @@ function turn_edit_mode_on() {
   // darken picture slightly
   $('#drawing-area').css("opacity", "0.4");
     // All rectangles go to highlight mode/turn red on hover
-  var rects = document.getElementsByClassName('map_selection');
-  Array.prototype.forEach.call(rects,function(element) {
-    element.classList.add("delete_selection");
-  });
-
+  $('.map_selection').addClass("delete_selection");
   // 'disable' other buttons
-  var buttons = document.getElementsByClassName('button');
-  Array.prototype.forEach.call(buttons,function(element) {
-    element.classList.add("disabled-button");
-  });
-
+  $('button').addClass("disabled-button");
   // highlight edit button
-  var editbutton = document.getElementById('edit_button');
-  editbutton.classList.add("attention");
-  editbutton.value = "Done";
+  $('#edit_button').addClass("attention")
+                   .val("Done");
   // Add white text "Click Selection to Delete"
 }
 
 function turn_edit_mode_off() {
   edit_mode = false;
-
-  var rects = document.getElementsByClassName('map_selection');
   $('#drawing-area').css("opacity", "");
-  Array.prototype.forEach.call(rects,function(element) {
-    element.classList.remove("delete_selection");
-  });
-
-  var buttons = document.getElementsByClassName('button');
-  Array.prototype.forEach.call(buttons,function(element) {
-    element.classList.remove("disabled-button");
-  });
-
-  var editbutton = document.getElementById('edit_button');
-  editbutton.classList.remove("attention");
-  editbutton.value = "Edit...";
+  $('.map_selection').removeClass("delete_selection");
+  $('.button').removeClass("disabled-button");
+  $('#edit_button').removeClass("attention")
+                   .val("Edit...");
 }
 
 function deleteSelection(target) {
   var targetId = target.getAttribute("targetId");
 
-  if (!verifyDelete()) {
-    return;
-  }
-
-  var xhttp = new XMLHttpRequest();
-  xhttp.onreadystatechange = function() {
-    if (this.readyState == 4 && this.status == 200) {
-      alert(this.responseText);
+  if (verifyDelete()) {
+    function sendDelete(target) {
+      var xhttp = new XMLHttpRequest();
+      xhttp.open("DELETE", "selection"+"?"+
+                  "mapname="+ mapDataStore.mapdata.mapName +
+                  "&targetid=" + targetId+
+                  "&currentid=" + currentNode, true);
+      xhttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+          alert(this.responseText);
+          // remove from view
+          target.parentNode.removeChild(target);
+        }
+      };
+      xhttp.send();
     }
-  };
-  xhttp.open("DELETE", "selection"+"?"+"mapname="+ mapDataStore.mapdata.mapName + "&targetid=" + targetId+ "&currentid=" + currentNode, true);
-  xhttp.send();
 
-  //TODO: move this into the http response
-  target.parentNode.removeChild(target);
-  return;
+    sendDelete(target);
+  }
 }
 
+function doneUploading() {
+  // need to make rectangle functional.
+  // might mean re-pulling our dataset from teh server.
+}
 
 ////////// PURE UTILITY FUNCTIONS /////////////////
 
@@ -296,38 +310,35 @@ function initializeImageObject() {
     // Resize the SVG image to fit
     var viewboxstr = "0 0 " + this.width + " " + this.height;
     $('#svgimage').attr("viewBox", viewboxstr);
-    $('#map_picture').attr("width", this.width);
-    $('#map_picture').attr("height", this.height);
-    $('#map_picture').attr("xlink:href", img.src);
+    $('#map_picture').attr("width", this.width)
+                     .attr("height", this.height)
+                     .attr("xlink:href", img.src);
 
     // Build a drawing area the same size as the image
-    $('#drawing-area-container').attr("viewBox", viewboxstr);
-    $('#drawing-area-container').attr("width", this.width);
-    $('#drawing-area-container').attr("height", this.height);
-    $('#drawing-area').attr("width", this.width);
-    $('#drawing-area').attr("height", this.height);
+    $('#drawing-area-container').attr("viewBox", viewboxstr)
+                                .attr("width", this.width)
+                                .attr("height", this.height);
+    $('#drawing-area').attr("width", this.width)
+                      .attr("height", this.height);
   }
   return img;
 }
 
 function setButtonToCreating() {
-  document.getElementById('create_selection_button').value = "Creating Selection";
-  document.getElementById('create_selection_button').classList.remove("attention");
-  //mybutton.style.boxShadow = "0 0 15px #cc6533";
-  document.getElementById('cancel_selection_button').style.display= "block";
+  $('#create_selection_button').val("Creating Selection")
+                               .removeClass("attention");
+  $('#cancel_selection_button').css("display", "block");
 }
 
 function setButtonToSave() {
-  var mybutton = document.getElementById('create_selection_button');
-  mybutton.classList.add("attention");
-  mybutton.value = "Save Selection";
+  $('#create_selection_button').addClass("attention")
+                               .val("Save Selection");
 }
 
 function setButtonToDefaults() {
-  var mybutton = document.getElementById('create_selection_button');
-  mybutton.classList.remove("attention");
-  mybutton.value = "Create Selection";
-  document.getElementById('cancel_selection_button').style.display= "none";
+  $('#create_selection_button').removeClass("attention")
+                               .val("Create Selection");
+  $('#cancel_selection_button').css("display", "none");
 }
 
 function createSelectionRectangle(x,y,height,width) {
@@ -344,15 +355,13 @@ function createSelectionRectangle(x,y,height,width) {
 }
 
 function resetAcceptButton() {
-  var acceptButton = document.getElementById("accept_upload_button");
-  acceptButton.classList.remove("activated");
-  acceptButton.classList.add("unselected");
+  $('#accept_upload_button').removeClass("activated")
+                            .addClass("unselected");
   $("#accept_upload_button").prop('onclick',null).off('click');
 };
 function activateAcceptButton() {
-  var acceptButton = document.getElementById("accept_upload_button");
-  acceptButton.classList.remove("unselected");
-  acceptButton.classList.add("activated");
+  $('#accept_upload_button').removeClass("unselected")
+                            .addClass("activated");
   // have to set the button activation in the dropzone itself
 };
 

@@ -8,6 +8,7 @@
   <meta name="author" content="Laura Imbler"/>
   <link rel="stylesheet" type="text/css" href="styles.css">
   <link rel="stylesheet" type="text/css" href="dropzonejs/dropzone.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   <link rel="import" href="./header.html">
   <link rel="import" href="./footer.html">
 
@@ -34,12 +35,12 @@
 
 input.attention {
   color: white;
-  background:var(--burntorange);
-  box-shadow: 0 0 15px var(--burntorange);
+  background:var(--accent);
+  box-shadow: 0 0 15px var(--accent);
 }
 input.attention:hover {
   color: white;
-  box-shadow: 0 0 30px var(--burntorange);
+  box-shadow: 0 0 30px var(--accent);
 }
 
 #map_element {
@@ -93,7 +94,7 @@ input.attention:hover {
 #cancel_selection_button {
   float: left;
   background:none!important;
-  color:var(--burntorange);
+  color:var(--accent);
   border:none;
   padding: .2em 0.8em 0.2em 0.8em;
   font: inherit;
@@ -104,12 +105,13 @@ input.attention:hover {
 #edit_button {
   float:right;
   border-width: 1px;
-  //border-color: #777777;
 }
 
 #go_back_button {
-  font-size: 1.4em;
-  line-height: 150%;
+  font-size: 1.5em;
+  line-height: 120%;
+  padding-top: 0em;
+  padding-bottom: 0.05em;
 }
 
 @media(max-width: 768px){
@@ -173,7 +175,7 @@ input.attention:hover {
           <input type="button" id="create_selection_button" class="button" onclick="clickedCreateSelection()" value="Create Selection..."></input>
           <input type="button" id="cancel_selection_button" onclick="clickedCancelSave()" value="Cancel..."></input>
         </div>
-        <div class="col-2"><a href="./mymaps.html" id="go_back_button" class="button">Go Back</a></div>
+        <div class="col-2"><button id="go_back_button" class="button" onclick="clickedGoBack()"><i class="fa fa-arrow-left"></i></button></div>
         <div class="col-3"><input type="button" id="edit_button" class="button" onclick="clickedEdit()" value="Edit..."></input></div>
       </div>
     <!-- </div> -->

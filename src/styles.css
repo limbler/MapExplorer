@@ -1,6 +1,6 @@
 
 :root {
-  --burntorange: #cc6533;
+  --accent: #cc6533;
   --darkgrey: #191919;
   --disabled: #999999;
   --selection: #fdf339;
@@ -14,9 +14,14 @@ body {
   text-align: center;
   font-family: Arial, monaco, monospace, Helvetica, sans-serif;
   background: linear-gradient( rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5) ), url('./images/greytexture.jpg') 100%;
+  //background: black;
   background-size: cover;
   margin: 0;
   padding: 0;
+}
+
+h1 {
+  //font-family: "Courier", sans-serif;
 }
 
 ul {
@@ -25,7 +30,7 @@ ul {
 }
 
 span.highlight {
-  color:var(--burntorange);
+  color:var(--accent);
 }
 
 /* Global */
@@ -58,7 +63,7 @@ span.highlight {
   padding: .2em 0.8em 0.2em 0.8em;
   border-width: 2px;
   border-style: solid;
-  border-color: var(--burntorange);
+  border-color: var(--accent);
   border-radius: 30px;
   cursor: pointer;
 }
@@ -67,7 +72,7 @@ span.highlight {
 }
 
 .button:hover {
-    color: var(--burntorange);
+    color: var(--accent);
 }
 
 .disabled-button {
@@ -95,9 +100,9 @@ button.unselected {
 button.unselected:hover { color: white; }
 
 button.activated {
-  background-color: var(--burntorange);
-  border-color: var(--burntorange);
-  box-shadow: 0 0 15px var(--burntorange);
+  background-color: var(--accent);
+  border-color: var(--accent);
+  box-shadow: 0 0 15px var(--accent);
   color: white;
 }
 button.activated:hover { color: white; }
@@ -193,7 +198,7 @@ rect.delete_selection:hover {
 	box-shadow: 1px 1px 3px #000;
 }
 
-.close:hover { background: var(--burntorange); }
+.close:hover { background: var(--accent); }
 
 .custom_dropzone {
   //background: linear-gradient( rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5) ) 100%;
@@ -203,16 +208,20 @@ rect.delete_selection:hover {
 /* Header */
 header {
   background-color: var(--darkgrey);
-  color: #ffffff;
+  color: white;
   padding-top: 20px;
   min-height: 2.6em;
-  border-bottom: var(--burntorange) 3px solid;
+  border-bottom: var(--accent) 3px solid;
 }
 
 header a {
-  color: #ffffff;
+  color: white;
   text-decoration: none;
   font-size: 18px;
+  -webkit-transition: color 0.1s ease-out;
+  -moz-transition: color 0.1s ease-out;
+  -o-transition: color 0.1s ease-out;
+  transition: color 0.1s ease-out;
 }
 
 header li {
@@ -241,12 +250,12 @@ header nav {
 }
 
 header .highlight, header .current a {
-  color:var(--burntorange);
+  color:var(--accent);
   font-weight:bold;
 }
 
 header a:hover{
-  color:var(--burntorange);
+  color:var(--accent);
   //font-weight:bold;
 }
 

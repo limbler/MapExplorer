@@ -148,6 +148,24 @@ app.listen(3000, function () {
 })
 
 ////////  DELETES    /////////////////////////
+app.delete('/map', function( req, res) {
+  console.log("delete: req.query: " + JSON.stringify(req.query));
+  var mapName = req.query.mapname;
+  var mymap = dataStore.maps.filter(function (entry) {
+    return entry.mapdata.mapName === mapName;
+  })[0];
+  if (!mymap) {
+      return res.status( 500 ).send("Server Error - Could not find map " + mapName);
+  }
+  var index = dataStore.maps.indexOf(mymap);
+  if (index > -1) {
+    dataStore.maps.splice(index, 1);
+  }
+
+  // TODO: Persist delete
+  return res.status( 200 ).send(mapName);
+})
+
 app.delete('/selection', function( req, res) {
   console.log("delete: req.query: " + JSON.stringify(req.query));
   var mapName = req.query.mapname;
