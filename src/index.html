@@ -21,7 +21,7 @@
 
 /* Showcase */
 #showcase {
-  min-height: 390px;
+  min-height: 440px;
   background: linear-gradient( rgba(10, 0, 20, 0.4), rgba(10, 0, 20, 0.4) ), url("./images/Whelan.jpg") 35% 25%no-repeat ;
   text-align: center;
   color: white;
@@ -48,8 +48,14 @@
 }
 
 #showcase #go_to_maps {
-  font-size: 2.2em;
+  font-size: 2em;
   font-weight: bold;
+  background-color: var(--accent);
+  border-color: var(--accent);
+}
+
+#showcase #go_to_maps:hover {
+  color: white;
 }
 
 /* Boxes */
@@ -61,7 +67,7 @@
 #samples .sample_box {
   float:left;
   width: 33%;
-  height: 450px;
+  height: 500px;
   padding:0px;
   text-align: center;
 }
@@ -138,7 +144,7 @@
 @media (max-width : 568px) {
 
   #showcase {
-    min-height: 300px;
+    min-height: 350px;
   }
 
   #showcase #welcome_text {
@@ -177,22 +183,22 @@
     <h1 id="welcome_text">Welcome to Map Explorer</h1>
     <h2 id="blurb1">Don't just create your own world,</br><span id="blurb2">build a path through it.</span></h2>
 
-    <!-- <div id="mymaps_button_container">
-      <a href="./mymaps.html" class="button" id="go_to_maps">Go to My Maps</a>
-    </div> -->
+    <div id="mymaps_button_container">
+      <a href="/mymaps" class="button" id="go_to_maps">Go to My Maps</a>
+    </div>
   </div>
 </section>
 
 <section id="samples">
   <div class="container">
     <div class="sample_box">
-      <a href="./map.html" class="map-thumbnail" id="img1"><h3>Design a World</h3></a>
+      <a href="/mappage" class="map-thumbnail" id="img1"><h3>Design a World</h3></a>
     </div>
     <div class="sample_box">
-      <a href="./about.html" class="map-thumbnail" id="img2"><h3>Tell a Story</h3></a>
+      <a href="/about" class="map-thumbnail" id="img2"><h3>Tell a Story</h3></a>
     </div>
     <div class="sample_box">
-      <a href="./map.html" class="map-thumbnail" id="img3"><h3>And More...</h3></a>
+      <a href="/mappage" class="map-thumbnail" id="img3"><h3>And More...</h3></a>
     </div>
   </div>
 </section>

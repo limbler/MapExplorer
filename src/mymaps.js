@@ -3,7 +3,60 @@
 Dropzone.autoDiscover = true;
 Dropzone.options.newmapDropzone = generateCustomDropzoneObject();
 
+// set up our Vue handlers
+var app = new Vue({
+  el: '#app',
+  data: {
+    message: '',
+    maps: null
+  },
+  methods: {
+    getImageFromNodeId(mapName, nodeId) {
+      var mymap = this.maps.filter(function (entry) { return entry.mapdata.mapName === mapName; });
+      var firstNode = mymap[0].nodes.filter(function (entry) { return entry.id === mymap[0].mapdata.firstNodeId; });
+      return firstNode[0].imageId;
+    },
+    getNumberTiles(mapName) {
+      var mymap = this.maps.filter(function (entry) { return entry.mapdata.mapName === mapName; });
+      return mymap[0].nodes.length;
+    },
+    clickedDeleteMap(mapName) {
+      if (verifyDelete(mapName)) {
+        // delete map from server
+        function sendDelete(maps, mapName) {
+          var xhttp = new XMLHttpRequest();
+          xhttp.open("DELETE", "map"+"?"+"mapname="+ mapName, true);
+          xhttp.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+              alert("Deleted from server");
+
+              // Remove from maps panel
+              var mymap = maps.filter(function (entry) {
+                return entry.mapdata.mapName === mapName;
+              })[0];
+              if (mymap) {
+                var index = maps.indexOf(mymap);
+                if (index > -1) {
+                    maps.splice(index, 1);
+                }
+              }
+            }
+          }; // onreadystatechange
+          xhttp.send();
+        } //sendDelete
+
+        sendDelete(this.maps, mapName);
+
+      } //verifyDelete
+    } //clickedDeleteMap
+  } //methods
+})
+
 $(function(){
+  loadMaps();
+});
+
+function loadMaps() {
   // Make GET request for the list of maps
   var xhttp = new XMLHttpRequest();
   xhttp.onreadystatechange = function() {
@@ -11,63 +64,13 @@ $(function(){
       // obj is the list of maps
       var obj = JSON.parse(this.responseText);
       var firstNode = obj.maps[0].nodes.filter(function (entry) { return entry.id === obj.maps[0].mapdata.firstNodeId; });
-
-      // set up our Vue handlers
-      var app = new Vue({
-        el: '#app',
-        data: {
-          message: '',
-          maps: obj.maps
-        },
-        methods: {
-          getImageFromNodeId(mapName, nodeId) {
-            var mymap = this.maps.filter(function (entry) { return entry.mapdata.mapName === mapName; });
-            var firstNode = mymap[0].nodes.filter(function (entry) { return entry.id === mymap[0].mapdata.firstNodeId; });
-            return firstNode[0].imageId;
-          },
-          getNumberTiles(mapName) {
-            var mymap = this.maps.filter(function (entry) { return entry.mapdata.mapName === mapName; });
-            return mymap[0].nodes.length;
-          },
-          clickedDeleteMap(mapName) {
-
-            if (verifyDelete(mapName)) {
-              // delete map from server
-              function sendDelete(maps, mapName) {
-                var xhttp = new XMLHttpRequest();
-                xhttp.open("DELETE", "map"+"?"+"mapname="+ mapName, true);
-
-                xhttp.onreadystatechange = function() {
-                  if (this.readyState == 4 && this.status == 200) {
-                    alert("Deleted from server");
-
-                    // Remove from maps panel
-                    var mymap = maps.filter(function (entry) {
-                      return entry.mapdata.mapName === mapName;
-                    })[0];
-                    if (mymap) {
-                      var index = maps.indexOf(mymap);
-                      if (index > -1) {
-                          maps.splice(index, 1);
-                      }
-                    }
-                  }
-                };
-                xhttp.send();
-              }
-
-              sendDelete(this.maps, mapName);
-
-            }
-          } //clickedDeleteMap
-        } //methods
-      })
+      // plug it into our vue
+      app.maps = obj.maps;
     }
   };
   xhttp.open("GET", "mapList", true);
   xhttp.send();
-
-});
+}
 
 function resetAcceptButton() {
   $("#accept_upload_button").removeClass("activated")
@@ -131,6 +134,6 @@ function verifyDelete(mapName) {
 }
 
 function doneUploading() {
-  alert("DONE UPLOADING")
   // Need to add the new map to the list
+  loadMaps();
 }

@@ -29,7 +29,6 @@ $(function(){
     if (this.readyState == 4 && this.status == 200) {
       var obj = JSON.parse(this.responseText);
       loadFromDataStore(obj, obj.mapdata.firstNodeId);
-      //alert(this.responseText);
       mapDataStore = JSON.parse(this.responseText);
 
     }
@@ -45,7 +44,6 @@ var edit_mode = false;
 var draw_mode = false;
 var ready_to_save = false;
 
-
 ////////// User Interaction //////////////////
 
 function clickedGoBack() {
@@ -56,7 +54,7 @@ function clickedGoBack() {
     return entry.id === currentNode;
   })[0];
   if (!myNode) {
-    alert("Error: Cant find current Node :(");
+    alert("Error: Cant find current Node");
     return;
   }
   var parentNode = myNode.parentNodeId;
@@ -70,7 +68,6 @@ function clickedGoBack() {
     window.location.href = "./mymaps.html";
     return;
   }
-
 }
 
 function clickedEdit() {
@@ -244,9 +241,10 @@ function turn_edit_mode_on() {
     // All rectangles go to highlight mode/turn red on hover
   $('.map_selection').addClass("delete_selection");
   // 'disable' other buttons
-  $('button').addClass("disabled-button");
+  $('.button').addClass("disabled-button");
   // highlight edit button
-  $('#edit_button').addClass("attention")
+  $('#edit_button').removeClass("disabled-button")
+                   .addClass("attention")
                    .val("Done");
   // Add white text "Click Selection to Delete"
 }
@@ -272,7 +270,6 @@ function deleteSelection(target) {
                   "&currentid=" + currentNode, true);
       xhttp.onreadystatechange = function() {
         if (this.readyState == 4 && this.status == 200) {
-          alert(this.responseText);
           // remove from view
           target.parentNode.removeChild(target);
         }
@@ -281,12 +278,37 @@ function deleteSelection(target) {
     }
 
     sendDelete(target);
+
+    reloadDataFromServer();
   }
 }
 
 function doneUploading() {
-  // need to make rectangle functional.
-  // might mean re-pulling our dataset from teh server.
+  // Go ahead and reload the whole map
+  reloadDataFromServer();
+}
+
+function reloadDataFromServer() {
+  var xhttp = new XMLHttpRequest();
+  xhttp.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) {
+      var obj = JSON.parse(this.responseText);
+      loadFromDataStore(obj, currentNode); // stay on current node
+      mapDataStore = JSON.parse(this.responseText);
+    }
+  };
+  xhttp.open("GET", "map"+"?"+"mapname="+mapDataStore.mapdata.mapName, true);
+  xhttp.send();
+}
+
+function validateUpload() {
+  return true;
+}
+
+function appendUploadData(formData) {
+  formData.append('currentNode', currentNode);
+  formData.append('currentMap', mapDataStore.mapdata.mapName);
+  formData.append('selection', newSelectionJson);
 }
 
 ////////// PURE UTILITY FUNCTIONS /////////////////
@@ -367,16 +389,6 @@ function activateAcceptButton() {
 
 function closeModal() {
   window.location.hash='';
-}
-
-function validateUpload() {
-  return true;
-}
-
-function appendUploadData(formData) {
-  formData.append('currentNode', currentNode);
-  formData.append('currentMap', mapDataStore.mapdata.mapName);
-  formData.append('selection', newSelectionJson);
 }
 
 function verifyDelete() {

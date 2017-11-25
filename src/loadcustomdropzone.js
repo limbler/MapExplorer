@@ -8,6 +8,8 @@ function generateCustomDropzoneObject() {
     dictDefaultMessage: "Drop files here (or click) to upload",
     dictResponseError: 'Server not Configured',
     autoProcessQueue: false,
+    thumbnailWidth: 300,
+    thumbnailHeight: 300,
 
     accept: function(file, done) {
       file.acceptDimensions = done;

@@ -7,8 +7,8 @@
     <meta name="description" content="Build your own adventure through a series of images"/>
     <meta name="keywords" content="2D, art, adventure, DIY, build your own"/>
     <meta name="author" content="Laura Imbler"/>
-    <link rel="stylesheet" type="text/css" href="styles.css">
     <link rel="stylesheet" type="text/css" href="dropzonejs/dropzone.css">
+    <link rel="stylesheet" type="text/css" href="styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="import" href="./header.html">
     <link rel="import" href="./footer.html">
@@ -174,7 +174,7 @@ figcaption {
 
     <!-- Load in maps from server using Vue -->
     <figure v-for="map in maps" class="map-thumbnail">
-      <a v-bind:href="'./map.html?mapname=' + map.mapdata.mapName" >
+      <a v-bind:href="'./mappage?mapname=' + map.mapdata.mapName" >
         <img v-bind:src="getImageFromNodeId(map.mapdata.mapName, map.mapdata.firstNodeId)" class="map-thumbnail-img">
       </a>
       <div class="icon-container" v-on:click="clickedDeleteMap(map.mapdata.mapName)">
@@ -207,7 +207,7 @@ figcaption {
       <h2>Create a Starting Point</h2>
       <p>Select the starting image for your new map. Don't worry, you can always change it later! (when I actually implement that feature, that is)</p>
       <h3 style="margin-bottom: 0px">Map Title:</h3><input id="mapname_input" type="text" name="maptitle" placeholder="title...">
-      <form action="/newmap" method="post"
+      <form action="/map" method="post"
         class="dropzone custom_dropzone" id="newmap-dropzone">
         <input type="hidden" name="additionaldata" value="1" />
         <div class="fallback">

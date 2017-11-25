@@ -36,6 +36,7 @@
 input.attention {
   color: white;
   background:var(--accent);
+  border-color:var(--accent);
   box-shadow: 0 0 15px var(--accent);
 }
 input.attention:hover {
@@ -112,6 +113,16 @@ input.attention:hover {
   line-height: 120%;
   padding-top: 0em;
   padding-bottom: 0.05em;
+}
+
+@media(min-width: 1500px) {
+  #map_active_area {
+    max-width: 1400px;
+  }
+
+  #map_tools {
+    max-width: 1500px;
+  }
 }
 
 @media(max-width: 768px){
