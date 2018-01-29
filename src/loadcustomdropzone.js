@@ -96,14 +96,6 @@ function generateCustomDropzoneObject() {
       self.on("removedfile", function (file) {
         console.log("removing file " + file + " from dropzone");
         resetAcceptButton();
-        // console.log(file);
-        // $.ajax({
-        //   url: '/uploaded/files/' + file.name,
-        //   type: 'DELETE',
-        //   success: function(result) {
-        //     console.log(result);
-        //   }
-        // });
       });
     }
   };

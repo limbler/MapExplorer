@@ -10,8 +10,8 @@
           <li id="header-home"> <a href="/">Home</a></li>
           <li id="header-mymaps"> <a href="/mymaps">My Maps</a></li>
           <li id="header-about"> <a href="/about">About</a></li>
-          <li> <a onclick="clickedSignIn()" href="./">Sign In</a></li>
-          <li> <a href="https://www.paypal.com/" target="_blank" id="donatelink">Donate</a></li>
+          <li> <a onclick="clickedNotImplemented()" href="./">Sign In</a></li>
+          <li> <a onclick="clickedNotImplemented()" href="./" id="donatelink">Donate</a></li>
         </ul>
     </nav>
   </div>
@@ -29,8 +29,8 @@ var thatDoc = document;
 var content = thisDoc.querySelector('#myheader');
 thatDoc.body.insertBefore(thatDoc.importNode(content, true), thatDoc.body.firstChild);
 
-function clickedSignIn() {
-  alert("Sorry, Sign In not implemented yet!");
+function clickedNotImplemented() {
+  alert("Sorry, not implemented yet!");
 }
 
 </script>
